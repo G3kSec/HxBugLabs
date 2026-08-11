@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/head') %></head>
+<body>
+  <header>
+    <span class="brand">NoteShare</span>
+    <nav><a href="/notes">My notes</a><a href="/logout">Log out</a></nav>
+  </header>
+  <main>
+    <div class="card">
+      <h1>New note</h1>
+      <% if (error) { %><div class="error"><%= error %></div><% } %>
+      <form method="POST" action="/notes/new">
+        <label for="title">Title</label>
+        <input id="title" name="title" required>
+        <label for="body">Body</label>
+        <textarea id="body" name="body" required></textarea>
+        <button class="btn" type="submit">Save note</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

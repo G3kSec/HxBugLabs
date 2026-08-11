@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/head') %></head>
+<body>
+  <header>
+    <span class="brand">NoteShare</span>
+    <nav><a href="/notes">My notes</a><a href="/logout">Log out</a></nav>
+  </header>
+  <main>
+    <div class="card">
+      <h1>Search notes</h1>
+      <form method="GET" action="/search" style="display:flex; gap:0.5rem;">
+        <input name="q" value="<%= query %>" placeholder="Search your notes..." style="margin:0;">
+        <button class="btn" type="submit">Search</button>
+      </form>
+    </div>
+    <% if (query) { %>
+    <div class="card">
+      <h2 style="font-size:1rem; margin:0 0 0.5rem;">Results for: <%- query %></h2>
+      <p class="muted">No notes matched.</p>
+    </div>
+    <% } %>
+  </main>
+</body>
+</html>
