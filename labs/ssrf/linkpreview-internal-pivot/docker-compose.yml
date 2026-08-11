@@ -1,0 +1,23 @@
+services:
+  linkpreview:
+    build: ./linkpreview
+    container_name: 0xbuglabs-linkpreview
+    ports:
+      - "8082:8082"
+    networks:
+      - default # published to the host, like any single-service lab
+      - backend # bridges into the internal-only network below
+    restart: unless-stopped
+
+  warehouse-api:
+    build: ./warehouse-api
+    container_name: 0xbuglabs-warehouse-api
+    networks:
+      - backend # this service is deliberately never on `default` —
+        # it has no route to the host at all, only reachable through
+        # linkpreview, which is the entire point of the lab
+    restart: unless-stopped
+
+networks:
+  backend:
+    internal: true

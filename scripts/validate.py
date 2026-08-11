@@ -135,9 +135,16 @@ def validate_lab(path: Path, taxonomy: dict, seen_flags: dict[str, str], seen_po
     if tags is not None and (not isinstance(tags, list) or not all(isinstance(t, str) for t in tags)):
         error(where, '"tags" has to be a list of strings')
 
-    for required_file in ("docker-compose.yml", "Dockerfile", "README.md", "SOLUTION.md"):
+    for required_file in ("docker-compose.yml", "README.md", "SOLUTION.md"):
         if not (lab_dir / required_file).exists():
             error(where, f"missing {required_file} next to lab.yaml")
+
+    # A single-service lab has its Dockerfile right next to lab.yaml.
+    # Multi-service labs (docker-compose.yml with multiple `build:`
+    # entries) put each one in its own subfolder instead — either is
+    # fine, but at least one Dockerfile has to exist somewhere in the lab.
+    if not list(lab_dir.glob("**/Dockerfile")):
+        error(where, "no Dockerfile found anywhere under this lab")
 
 
 def main() -> int:
