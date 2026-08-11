@@ -1,0 +1,34 @@
+# 0xBugLabs — closed taxonomy.
+#
+# Same discipline as 0xBugLetter: these lists are the single source of
+# truth for scripts/validate.py and (later) the site's TypeScript types.
+# Closed on purpose — if every lab invents its own category, filtering on
+# the catalog site stops being useful.
+#
+# Add a value only in a PR that also updates every place that reads this
+# file, once those exist.
+
+categories:
+  - "SQL / NoSQL Injection"
+  - "Command Injection"
+  - "XSS"
+  - "SSRF"
+  - "CSRF"
+  - "XXE"
+  - "SSTI"
+  - "Access Control / IDOR"
+  - "Auth"
+  - "File Upload"
+  - "Deserialization"
+  - "Race Condition"
+  - "Business Logic"
+  - "API / GraphQL"
+  - "Cache Poisoning"
+  - "Request Smuggling"
+  - "Prototype Pollution"
+  - "Recon / OSINT"
+
+difficulties:
+  - "Easy"
+  - "Medium"
+  - "Hard"
