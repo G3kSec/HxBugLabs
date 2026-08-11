@@ -90,13 +90,12 @@ tags:
     container_name: 0xbuglabs-{args.slug}
     ports:
       - "{args.port}:{args.port}"
-    networks:
-      - lab
     restart: unless-stopped
 
-networks:
-  lab:
-    internal: true
+# Multi-service lab where one container must stay unreachable from the
+# host on purpose (e.g. an SSRF target)? Give THAT service its own
+# internal-only network — see SECURITY.md for why `internal: true` on a
+# lab's main published service breaks port publishing entirely.
 """,
         encoding="utf-8",
     )
