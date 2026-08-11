@@ -1,0 +1,309 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════
+   0xBugLabs — Design tokens
+
+   Green accent, shared with the rest of the 0x family (0xBugLetter,
+   portfolio, 0xHashFavicon). Neutrals carry a slight green bias so the
+   accent reads as part of the surface rather than pasted on top of it.
+
+   The difficulty ramp (green → amber → red) stays close to the accent hue
+   on purpose — "Easy" and the brand color are the same idea here, unlike a
+   CVSS severity ramp which has to stay clearly separate from branding.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Surfaces */
+  --ground: #f7faf8;
+  --surface: #ffffff;
+  --surface-2: #eaf1ec;
+  --surface-3: #dde8e0;
+
+  /* Borders */
+  --border: #d2e0d6;
+  --border-subtle: #e6eee9;
+  --border-strong: #b5c8bb;
+
+  /* Text */
+  --text: #0b0e0b;
+  --text-2: #4f5a52;
+  --text-3: #66756b;
+
+  /* Accent */
+  --accent: #006e34;
+  --accent-hover: #005527;
+  --accent-contrast: #f8fef8;
+  --accent-bg: #006e3414;
+  --accent-border: #006e3440;
+
+  /* Difficulty ramp */
+  --diff-easy: #1a7a3e;
+  --diff-easy-bg: #1a7a3e14;
+  --diff-medium: #a86a06;
+  --diff-medium-bg: #a86a0614;
+  --diff-hard: #b4162c;
+  --diff-hard-bg: #b4162c14;
+
+  --shadow-sm: 0 1px 2px rgb(11 14 11 / 0.05);
+  --shadow-md: 0 2px 10px rgb(11 14 11 / 0.07);
+  --shadow-lg: 0 8px 30px rgb(11 14 11 / 0.1);
+
+  --grid-line: #0b0e0b0a;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #070907;
+    --surface: #0d110e;
+    --surface-2: #131a15;
+    --surface-3: #152317;
+
+    --border: #1f2a21;
+    --border-subtle: #161e17;
+    --border-strong: #314234;
+
+    --text: #e5e9e5;
+    --text-2: #939e95;
+    --text-3: #727f75;
+
+    --accent: #46d76f;
+    --accent-hover: #6ce28d;
+    --accent-contrast: #070907;
+    --accent-bg: #46d76f1a;
+    --accent-border: #46d76f4d;
+
+    --diff-easy: #4ade80;
+    --diff-easy-bg: #4ade801a;
+    --diff-medium: #e8b53d;
+    --diff-medium-bg: #e8b53d1a;
+    --diff-hard: #ff6d80;
+    --diff-hard-bg: #ff6d801a;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 2px 10px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 8px 30px rgb(0 0 0 / 0.5);
+
+    --grid-line: #e5e9e50a;
+
+    color-scheme: dark;
+  }
+}
+
+/* The explicit toggle has to beat the media query in both directions. */
+:root[data-theme="dark"] {
+  --ground: #070907;
+  --surface: #0d110e;
+  --surface-2: #131a15;
+  --surface-3: #152317;
+
+  --border: #1f2a21;
+  --border-subtle: #161e17;
+  --border-strong: #314234;
+
+  --text: #e5e9e5;
+  --text-2: #939e95;
+  --text-3: #727f75;
+
+  --accent: #46d76f;
+  --accent-hover: #6ce28d;
+  --accent-contrast: #070907;
+  --accent-bg: #46d76f1a;
+  --accent-border: #46d76f4d;
+
+  --diff-easy: #4ade80;
+  --diff-easy-bg: #4ade801a;
+  --diff-medium: #e8b53d;
+  --diff-medium-bg: #e8b53d1a;
+  --diff-hard: #ff6d80;
+  --diff-hard-bg: #ff6d801a;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 2px 10px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 8px 30px rgb(0 0 0 / 0.5);
+
+  --grid-line: #e5e9e50a;
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --ground: #f7faf8;
+  --surface: #ffffff;
+  --surface-2: #eaf1ec;
+  --surface-3: #dde8e0;
+
+  --border: #d2e0d6;
+  --border-subtle: #e6eee9;
+  --border-strong: #b5c8bb;
+
+  --text: #0b0e0b;
+  --text-2: #4f5a52;
+  --text-3: #66756b;
+
+  --accent: #006e34;
+  --accent-hover: #005527;
+  --accent-contrast: #f8fef8;
+  --accent-bg: #006e3414;
+  --accent-border: #006e3440;
+
+  --diff-easy: #1a7a3e;
+  --diff-easy-bg: #1a7a3e14;
+  --diff-medium: #a86a06;
+  --diff-medium-bg: #a86a0614;
+  --diff-hard: #b4162c;
+  --diff-hard-bg: #b4162c14;
+
+  --shadow-sm: 0 1px 2px rgb(11 14 11 / 0.05);
+  --shadow-md: 0 2px 10px rgb(11 14 11 / 0.07);
+  --shadow-lg: 0 8px 30px rgb(11 14 11 / 0.1);
+
+  --grid-line: #0b0e0b0a;
+
+  color-scheme: light;
+}
+
+/* ── Tailwind utility mapping ─────────────────────────────────────────── */
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-line: var(--border);
+  --color-line-subtle: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+
+  --color-ink: var(--text);
+  --color-ink-2: var(--text-2);
+  --color-ink-3: var(--text-3);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-bg: var(--accent-bg);
+  --color-accent-border: var(--accent-border);
+
+  --color-diff-easy: var(--diff-easy);
+  --color-diff-easy-bg: var(--diff-easy-bg);
+  --color-diff-medium: var(--diff-medium);
+  --color-diff-medium-bg: var(--diff-medium-bg);
+  --color-diff-hard: var(--diff-hard);
+  --color-diff-hard-bg: var(--diff-hard-bg);
+
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Dense type scale, tuned for a data-heavy catalog UI */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.4;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.65;
+  --text-lg: 1.0625rem;
+  --text-lg--line-height: 1.55;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.4;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.3;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 1.2;
+  --text-4xl: 2.75rem;
+  --text-4xl--line-height: 1.08;
+  --text-5xl: 3.5rem;
+  --text-5xl--line-height: 1.04;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+
+* {
+  border-color: var(--border-subtle);
+}
+
+html {
+  background: var(--ground);
+}
+
+body {
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Anything that responds to a click should say so. */
+button:not(:disabled),
+[role="button"]:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 6px;
+  border: 3px solid var(--ground);
+}
+
+/* ── Custom utilities ─────────────────────────────────────────────────── */
+
+/* Faint graph-paper grid — the research notebook, not a fake terminal. */
+@utility grid-bg {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+@utility label {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--text-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+@utility nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
