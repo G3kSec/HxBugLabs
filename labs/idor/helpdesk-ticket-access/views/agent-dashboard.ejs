@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/head') %></head>
+<body>
+  <header>
+    <span class="brand">Acme HelpDesk — Agent Console</span>
+    <nav>
+      <a href="/dashboard">My tickets</a>
+      <a href="/logout">Log out</a>
+    </nav>
+  </header>
+  <main>
+    <div class="card">
+      <h1>All tickets</h1>
+      <table>
+        <thead>
+          <tr><th>#</th><th>Customer</th><th>Subject</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <% tickets.forEach(t => {
+               const owner = users.find(u => u.id === t.ownerId);
+          %>
+          <tr>
+            <td>#<%= t.id %></td>
+            <td><%= owner ? owner.displayName : 'Unknown' %></td>
+            <td><a class="ticket-link" href="/tickets/<%= t.id %>"><%= t.subject %></a></td>
+            <td><span class="status <%= t.status %>"><%= t.status %></span></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h1>Internal notes</h1>
+      <% internalNotes.forEach(n => { %>
+        <div style="padding: 0.8rem 0; border-bottom: 1px solid #eceff2;">
+          <p style="margin: 0 0 0.3rem; font-weight: 600;"><%= n.subject %></p>
+          <pre class="body" style="margin: 0;"><%= n.body %></pre>
+          <p class="muted" style="margin-top: 0.4rem;">— <%= n.author %></p>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+</body>
+</html>

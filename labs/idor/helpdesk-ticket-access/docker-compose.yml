@@ -1,0 +1,16 @@
+services:
+  helpdesk:
+    build: .
+    container_name: 0xbuglabs-helpdesk-ticket-access
+    ports:
+      - "8080:8080"
+    networks:
+      - lab
+    restart: unless-stopped
+
+networks:
+  lab:
+    # No reason for this app to reach the internet — see SECURITY.md at
+    # the repo root. Published ports still work fine with an internal
+    # network; only outbound egress from the container is blocked.
+    internal: true

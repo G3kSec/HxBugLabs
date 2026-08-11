@@ -1,0 +1,16 @@
+{
+  "name": "helpdesk-ticket-access",
+  "version": "1.0.0",
+  "private": true,
+  "description": "0xBugLabs lab — HelpDesk ticket portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  }
+}
