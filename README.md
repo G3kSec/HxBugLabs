@@ -4,8 +4,8 @@ Self-hosted, Docker-based vulnerable labs for practicing bug bounty web
 vulnerabilities and recon techniques — plus a catalog site to browse and run
 them locally.
 
-**Status: Phase 1 in progress.** One real lab built and tested end to end.
-See [Roadmap](#roadmap).
+**Status: Phase 1 complete.** Five labs built and tested end to end against
+real Docker containers. See [Roadmap](#roadmap).
 
 ## Why
 
@@ -85,8 +85,11 @@ and match `0xBugLabs{...}`.
 
 ```
 ├── labs/                 The actual content, one dir per category
-│   └── idor/
-│       └── helpdesk-ticket-access/   First seed lab — see below
+│   ├── idor/helpdesk-ticket-access/
+│   ├── xss/noteshare-admin-bot/
+│   ├── ssrf/linkpreview-internal-pivot/
+│   ├── auth/meridian-token-flaws/
+│   └── recon/acme-attack-surface/
 ├── web/                  Next.js catalog (Phase 2, not started)
 ├── data/
 │   └── taxonomy.yaml     Closed category/difficulty lists
@@ -96,23 +99,33 @@ and match `0xBugLabs{...}`.
 └── SECURITY.md           Isolation rules — read before running anything
 ```
 
-## The first lab
+## The labs
 
-**`labs/idor/helpdesk-ticket-access`** — a support-ticket portal with two
-objectives: a horizontal IDOR (read another customer's ticket by walking
-sequential IDs) and a vertical one (reach a staff-only console the UI never
-links to, because the route is missing its authorization check — not
-missing auth entirely, just the *role* check, which is the more realistic
-and more common mistake). Full app, real login flow, bcrypt-hashed
-passwords, nothing about the bug telegraphed in the UI.
+Five labs, each a self-contained Docker Compose stack, each tested against
+real containers — built, run, exploited through every objective, torn down.
 
-Tested end to end: logged in, walked ticket IDs, hit the agent console,
-confirmed both flags are only reachable by actually exploiting each bug
-(verified negative cases too — no session, wrong password, both correctly
-rejected). **Not yet verified**: an actual `docker compose up` build — the
-Docker daemon wasn't running when this was built, so the Dockerfile is
-carefully written but unconfirmed. Worth a real `docker compose up -d` the
-next time Docker Desktop is open.
+| Lab | Category | Difficulty | Objectives |
+| --- | --- | --- | --- |
+| [`idor/helpdesk-ticket-access`](labs/idor/helpdesk-ticket-access) | Access Control / IDOR | Easy | Horizontal IDOR (read another customer's ticket) + vertical (reach a staff console missing its role check) |
+| [`xss/noteshare-admin-bot`](labs/xss/noteshare-admin-bot) | XSS | Medium | Reflected XSS with real browser execution + session theft via a headless admin bot that "reviews" reported content |
+| [`ssrf/linkpreview-internal-pivot`](labs/ssrf/linkpreview-internal-pivot) | SSRF | Medium | Denylist bypass to reach an unpublished internal container + pivot to an endpoint it doesn't advertise |
+| [`auth/meridian-token-flaws`](labs/auth/meridian-token-flaws) | Auth | Medium | Predictable password-reset token (base64, not encryption) + JWT `alg: none` signature-check bypass |
+| [`recon/acme-attack-surface`](labs/recon/acme-attack-surface) | Recon / OSINT | Easy | Content discovery via `robots.txt` → exposed backup file + asset discovery via exposed `.git/config` → forgotten second host |
+
+Each one is a full app: real auth flows, bcrypt-hashed passwords, no
+"you found it!" banners or other tells baked into the UI. The bug is only
+findable by actually exploiting it, and every objective was verified
+against its negative case too (wrong session, wrong token, blocked host)
+to confirm the flag isn't reachable any other way.
+
+A couple of real bugs surfaced while building these, worth noting because
+they're the kind of thing that bites in production too: a Docker Compose
+`internal: true` network blocks host port-publishing entirely, not just
+outbound egress as the network flag's name suggests (fixed by only
+isolating the specific service that needs to be unreachable, never a
+lab's main published service — see [SECURITY.md](SECURITY.md)); and the
+schema validator originally assumed every lab's `Dockerfile` sat next to
+its `lab.yaml`, which breaks for any multi-container lab.
 
 ## Safety
 
@@ -123,9 +136,9 @@ anything sensitive. Full notes in [SECURITY.md](SECURITY.md).
 ## Roadmap
 
 - **Phase 0 — Repo scaffold** *(done)*: plan, folder structure, taxonomy.
-- **Phase 1 — Foundation + seed labs** *(in progress)*: `scripts/validate.py`
-  and `scripts/new_lab.py` done; first lab (IDOR, two objectives) built and
-  tested. Remaining: XSS, SSRF, Auth, one Recon/OSINT challenge.
+- **Phase 1 — Foundation + seed labs** *(done)*: `scripts/validate.py` and
+  `scripts/new_lab.py` done; five labs built and tested end to end
+  (IDOR, XSS, SSRF, Auth, Recon/OSINT).
 - **Phase 2 — Catalog site**: Next.js SSG over `labs/**/lab.yaml`, `/labs`
   listing with filters, `/labs/[slug]` detail pages, collapsed solutions.
 - **Phase 3 — Progress + polish**: local progress tracking (no auth needed,
@@ -137,6 +150,3 @@ anything sensitive. Full notes in [SECURITY.md](SECURITY.md).
 - **Catalog site hosting** — Vercel, matching the rest of the 0x family.
   Site only, never the labs themselves. Needs to stay private
   (password-protected or undeployed) while this repo is private.
-- **Remaining seed labs** — confirm the XSS / SSRF / Auth / Recon list, or
-  swap categories, before building the next batch in the same shape as
-  `helpdesk-ticket-access`.

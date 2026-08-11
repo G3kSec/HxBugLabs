@@ -1,0 +1,34 @@
+title: "Acme Attack Surface — mapping what's actually reachable"
+slug: "acme-attack-surface"
+category: "Recon / OSINT"
+difficulty: "Easy"
+tech: ["Node.js", "Express", "Docker Compose (2 services)"]
+port: 8084
+
+description: >-
+  Acme Corp's public marketing site, exactly as it ships. No login form to
+  attack, no input field to fuzz — just a website, and the question of what
+  else is sitting around it that nobody meant to leave reachable.
+
+objectives:
+  - id: "content-discovery-backup-file"
+    title: "Find what robots.txt was trying to hide"
+    description: >-
+      A disallow rule is a request crawlers honor, not a lock. Something is
+      being kept out of search results — and it's still sitting in the
+      webroot for anyone who asks for it directly.
+    flag: "0xBugLabs{r0b0ts_txt_1s_a_m4p_n0t_a_w4ll}"
+
+  - id: "asset-discovery-forgotten-host"
+    title: "Find the second host nothing on the site links to"
+    description: >-
+      Somewhere in what you can already reach is a reference to
+      infrastructure that was supposed to be gone by now. Follow it.
+    flag: "0xBugLabs{f0rg0tt3n_4ss3t_st1ll_r34ch4bl3}"
+
+tags:
+  - "recon"
+  - "osint"
+  - "content-discovery"
+  - "asset-discovery"
+  - "information-disclosure"
