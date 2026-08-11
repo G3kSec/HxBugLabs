@@ -76,6 +76,9 @@ objectives:
     description: >-
       TODO
     flag: "0xBugLabs{{TODO}}"
+    hints:
+      - "TODO — a nudge in the right direction, not the answer"
+      - "TODO — a second, more specific nudge"
 
 tags:
   - "TODO"

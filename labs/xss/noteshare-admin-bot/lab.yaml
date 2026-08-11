@@ -18,6 +18,9 @@ objectives:
       should be. Prove you can run arbitrary JavaScript in your own
       session — not just get unescaped text in the response.
     flag: "0xBugLabs{r3fl3ct3d_xss_r34l_ex3cut10n}"
+    hints:
+      - "Your search term gets echoed back into the page. Try a value that would only matter if a browser parsed it as HTML."
+      - "Check whether the page escapes every field the same way, or just some of them."
 
   - id: "admin-session-theft"
     title: "Take over the admin account"
@@ -26,6 +29,9 @@ objectives:
       in a real browser. Turn a note into something that steals what
       that session is worth, then use it.
     flag: "0xBugLabs{st0l3n_s3ss10n_c00k13_4cc0unt_t4k30v3r}"
+    hints:
+      - "The 'report' feature gets reviewed by someone with more privileges than you, in a real browser session."
+      - "What would a script need to do to get a session cookie out of that browser and somewhere you control?"
 
 tags:
   - "xss"

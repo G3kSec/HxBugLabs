@@ -18,6 +18,9 @@ objectives:
       being kept out of search results — and it's still sitting in the
       webroot for anyone who asks for it directly.
     flag: "0xBugLabs{r0b0ts_txt_1s_a_m4p_n0t_a_w4ll}"
+    hints:
+      - "Check /robots.txt. A disallow rule tells you exactly what someone wanted hidden from search engines — not from you."
+      - "Request the disallowed path directly, then guess a plausible backup filename inside it (think: a dated database export)."
 
   - id: "asset-discovery-forgotten-host"
     title: "Find the second host nothing on the site links to"
@@ -25,6 +28,9 @@ objectives:
       Somewhere in what you can already reach is a reference to
       infrastructure that was supposed to be gone by now. Follow it.
     flag: "0xBugLabs{f0rg0tt3n_4ss3t_st1ll_r34ch4bl3}"
+    hints:
+      - "robots.txt disallows a second path too. What commonly ends up exposed there by accident in a real deploy?"
+      - "A git remote URL can point at infrastructure nobody meant to advertise. Follow wherever it points."
 
 tags:
   - "recon"

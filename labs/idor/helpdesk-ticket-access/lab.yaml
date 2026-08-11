@@ -18,6 +18,9 @@ objectives:
       Every ticket you're supposed to see belongs to your own account.
       Find a way to read one that doesn't.
     flag: "0xBugLabs{h0riz0nt4l_1d0r_1s_st1ll_a_bug}"
+    hints:
+      - "Open one of your own tickets and look at the URL. What identifies which ticket you're viewing?"
+      - "The ticket ID is sequential and the app trusts whatever ID you give it — it never checks that the ticket actually belongs to you."
 
   - id: "reach-agent-console"
     title: "Reach the internal agent console"
@@ -25,6 +28,9 @@ objectives:
       There's a staff-only view of the support queue. Your account is a
       regular customer, not staff.
     flag: "0xBugLabs{v3rt1c4l_4cc3ss_c0ntr0l_m1ss1ng}"
+    hints:
+      - "The customer UI never links to a staff area. That doesn't mean the route isn't there."
+      - "Try common staff paths directly in the URL bar while logged in as a regular customer."
 
 tags:
   - "idor"

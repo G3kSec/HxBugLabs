@@ -131,6 +131,16 @@ def validate_lab(path: Path, taxonomy: dict, seen_flags: dict[str, str], seen_po
             else:
                 seen_flags[flag] = obj_where
 
+        # Optional: progressive nudges shown behind a collapsed section on
+        # the site, so someone can opt into a push without opening
+        # SOLUTION.md and seeing the full answer.
+        hints = obj.get("hints")
+        if hints is not None:
+            if not isinstance(hints, list) or not hints or not all(
+                isinstance(h, str) and h.strip() for h in hints
+            ):
+                error(obj_where, '"hints" has to be a non-empty list of non-empty strings')
+
     tags = data.get("tags")
     if tags is not None and (not isinstance(tags, list) or not all(isinstance(t, str) for t in tags)):
         error(where, '"tags" has to be a list of strings')

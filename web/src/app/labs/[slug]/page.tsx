@@ -104,9 +104,30 @@ docker compose up -d`}</code>
                 <span className="nums shrink-0 font-mono text-xs text-ink-3">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <div>
+                <div className="min-w-0 flex-1">
                   <h3 className="font-semibold tracking-tight">{objective.title}</h3>
                   <p className="mt-1 text-sm text-ink-2">{objective.description}</p>
+
+                  {objective.hints.length > 0 ? (
+                    <details className="group mt-2.5">
+                      <summary className="inline-flex cursor-pointer select-none items-center gap-1.5 font-mono text-2xs text-ink-3 transition-colors hover:text-accent">
+                        <span className="inline-block transition-transform group-open:rotate-90">
+                          ▸
+                        </span>
+                        Hints ({objective.hints.length}) — stuck? optional, no spoilers
+                      </summary>
+                      <ol className="mt-2 flex flex-col gap-1.5 border-l border-line-subtle py-0.5 pl-3">
+                        {objective.hints.map((hint, hintIndex) => (
+                          <li key={hintIndex} className="text-sm text-ink-2">
+                            <span className="nums mr-1.5 font-mono text-2xs text-ink-3">
+                              {hintIndex + 1}.
+                            </span>
+                            {hint}
+                          </li>
+                        ))}
+                      </ol>
+                    </details>
+                  ) : null}
                 </div>
               </div>
             </li>

@@ -40,6 +40,8 @@ export interface LabObjective {
   id: string;
   title: string;
   description: string;
+  /** Progressive nudges, shown behind a collapsed section on the site. */
+  hints: string[];
 }
 
 /** A single lab, sourced from one `labs/<category>/<slug>/lab.yaml`. */

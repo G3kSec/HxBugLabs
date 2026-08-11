@@ -76,6 +76,19 @@ function optionalStringArray(file: string, obj: RawRecord, key: string): string[
   return value as string[];
 }
 
+function optionalNonEmptyStringArray(file: string, obj: RawRecord, key: string): string[] {
+  const value = obj[key];
+  if (value === undefined || value === null) return [];
+  if (
+    !Array.isArray(value) ||
+    value.length === 0 ||
+    !value.every((v) => typeof v === "string" && v.trim() !== "")
+  ) {
+    fail(file, `"${key}" has to be a non-empty list of non-empty strings`);
+  }
+  return value as string[];
+}
+
 function readYaml(file: string): unknown {
   const raw = fs.readFileSync(file, "utf8");
   try {
@@ -147,6 +160,7 @@ function parseObjective(file: string, index: number, raw: unknown): LabObjective
     id: requireString(label, obj, "id"),
     title: requireString(label, obj, "title"),
     description: requireString(label, obj, "description"),
+    hints: optionalNonEmptyStringArray(label, obj, "hints"),
     // "flag" exists in the YAML but is intentionally never read here — see
     // the note on LabObjective in types.ts.
   };
