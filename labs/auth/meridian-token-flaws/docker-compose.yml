@@ -1,0 +1,7 @@
+services:
+  meridian:
+    build: .
+    container_name: 0xbuglabs-meridian-token-flaws
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
