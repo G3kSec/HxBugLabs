@@ -1,11 +1,16 @@
 # 0xBugLabs
 
+[![Validate](https://github.com/G3kSec/0xBugLabs/actions/workflows/validate.yml/badge.svg)](https://github.com/G3kSec/0xBugLabs/actions/workflows/validate.yml)
+
 Self-hosted, Docker-based vulnerable labs for practicing bug bounty web
 vulnerabilities and recon techniques — plus a catalog site to browse and run
 them locally.
 
-**Status: Phase 1 complete.** Five labs built and tested end to end against
-real Docker containers. See [Roadmap](#roadmap).
+**[0xbuglabs.g3ksec.xyz](https://0xbuglabs.g3ksec.xyz/)**
+
+**Status: Beta.** Five labs built and tested end to end against real Docker
+containers, catalog site live. Still actively adding labs and polish — see
+[Roadmap](#roadmap).
 
 ## Why
 
@@ -27,11 +32,11 @@ neither is self-hostable. Nothing combines both.
 ## How it works
 
 One lab = one self-contained folder: a `docker-compose.yml` that runs it,
-and a `lab.yaml` that describes it. No database — the catalog site (Phase 2)
-reads every `lab.yaml` at build time, same content-as-code model already
-running in [0xBugLetter](https://github.com/G3kSec/0xBugLetter). Only the
-catalog site deploys anywhere (Vercel); the labs themselves never leave
-your machine.
+and a `lab.yaml` that describes it. No database — the catalog site reads
+every `lab.yaml` at build time, same content-as-code model already running
+in [0xBugLetter](https://github.com/G3kSec/0xBugLetter). Only the catalog
+site deploys anywhere (Vercel); the labs themselves never leave your
+machine.
 
 Labs are **toy apps, not real CVE reproductions** — faster to build, safer
 to run, and the difficulty is exactly as tunable as the story needs. A lab
@@ -90,7 +95,7 @@ and match `0xBugLabs{...}`.
 │   ├── ssrf/linkpreview-internal-pivot/
 │   ├── auth/meridian-token-flaws/
 │   └── recon/acme-attack-surface/
-├── web/                  Next.js catalog (Phase 2, not started)
+├── web/                  Next.js catalog — live at 0xbuglabs.g3ksec.xyz
 ├── data/
 │   └── taxonomy.yaml     Closed category/difficulty lists
 ├── scripts/
@@ -139,14 +144,17 @@ anything sensitive. Full notes in [SECURITY.md](SECURITY.md).
 - **Phase 1 — Foundation + seed labs** *(done)*: `scripts/validate.py` and
   `scripts/new_lab.py` done; five labs built and tested end to end
   (IDOR, XSS, SSRF, Auth, Recon/OSINT).
-- **Phase 2 — Catalog site**: Next.js SSG over `labs/**/lab.yaml`, `/labs`
-  listing with filters, `/labs/[slug]` detail pages, collapsed solutions.
+- **Phase 2 — Catalog site** *(done)*: Next.js SSG over `labs/**/lab.yaml`,
+  `/labs` listing with filters, `/labs/[slug]` detail pages, optional
+  collapsed hints per objective. Live at
+  [0xbuglabs.g3ksec.xyz](https://0xbuglabs.g3ksec.xyz/), flagged beta on
+  the site while more labs get added.
 - **Phase 3 — Progress + polish**: local progress tracking (no auth needed,
   single-user, tracked per-objective not just per-lab), stats page, CI
-  smoke-test that every `docker-compose` actually builds.
+  smoke-test that every `docker-compose` actually builds, more labs.
 
 ## Open decisions
 
 - **Catalog site hosting** — Vercel, matching the rest of the 0x family.
-  Site only, never the labs themselves. Needs to stay private
-  (password-protected or undeployed) while this repo is private.
+  Site only, never the labs themselves — those only ever run on
+  `localhost`. See [SECURITY.md](SECURITY.md).

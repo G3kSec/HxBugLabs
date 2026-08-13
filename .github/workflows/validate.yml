@@ -1,0 +1,56 @@
+name: Validate
+
+on:
+  pull_request:
+    paths:
+      - "labs/**"
+      - "data/**"
+      - "web/**"
+      - "scripts/validate.py"
+  push:
+    branches: [main]
+    paths:
+      - "labs/**"
+      - "data/**"
+      - "web/**"
+
+jobs:
+  labs:
+    name: Lab schema
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet pyyaml
+
+      - name: Validate lab.yaml files
+        run: python scripts/validate.py
+
+  web:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install deps
+        working-directory: web
+        run: npm ci
+
+      - name: Lint
+        working-directory: web
+        run: npx eslint .
+
+      - name: Build
+        working-directory: web
+        run: npm run build

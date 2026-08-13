@@ -31,5 +31,15 @@ point — treat every container here as hostile.
 
 ## Reporting a problem with this repo itself
 
-This is a private, single-maintainer repo for now. If that changes, this
-section will too.
+The rules above describe the labs — they're *supposed* to be vulnerable.
+This section is for the opposite case: a real security problem in the
+catalog site itself (deployed at
+[0xbuglabs.g3ksec.xyz](https://0xbuglabs.g3ksec.xyz/)) or in the repo
+tooling (`scripts/validate.py`, `scripts/new_lab.py`, CI workflows).
+
+Open a [private security advisory](https://github.com/G3kSec/0xBugLabs/security/advisories/new)
+rather than a public issue. Expect a first response within a few days.
+
+The catalog site itself is a static Next.js build with no backend, no
+database, and no user accounts — it only reads `labs/**/lab.yaml` at build
+time. It never runs, proxies, or links to a live instance of any lab.
