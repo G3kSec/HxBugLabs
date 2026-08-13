@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Poppins } from "next/font/google";
 
+import { BetaBanner } from "@/components/beta-banner";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -61,7 +62,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${poppins.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-dvh flex flex-col">
+      <body className="min-h-dvh flex flex-col pt-9">
+        <BetaBanner />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
