@@ -1,7 +1,5 @@
 # 0xBugLabs
 
-[![Validate](https://github.com/G3kSec/0xBugLabs/actions/workflows/validate.yml/badge.svg)](https://github.com/G3kSec/0xBugLabs/actions/workflows/validate.yml)
-
 Self-hosted, Docker-based vulnerable labs for practicing bug bounty web
 vulnerabilities and recon techniques — plus a catalog site to browse and run
 them locally.
