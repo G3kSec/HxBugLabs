@@ -4,7 +4,7 @@ Self-hosted, Docker-based vulnerable labs for practicing bug bounty web
 vulnerabilities and recon techniques — plus a catalog site to browse and run
 them locally.
 
-**[0xbuglabs.g3ksec.xyz](https://0xbuglabs.g3ksec.xyz/)**
+**[buglabs.hxhunt.com](https://buglabs.hxhunt.com/)**
 
 **Status: Beta.** Five labs built and tested end to end against real Docker
 containers, catalog site live. Still actively adding labs and polish.
@@ -75,7 +75,7 @@ and match `0xBugLabs{...}`.
 │   ├── ssrf/linkpreview-internal-pivot/
 │   ├── auth/meridian-token-flaws/
 │   └── recon/acme-attack-surface/
-├── web/                  Next.js catalog — live at 0xbuglabs.g3ksec.xyz
+├── web/                  Next.js catalog — live at buglabs.hxhunt.com
 ├── data/
 │   └── taxonomy.yaml     Closed category/difficulty lists
 ├── scripts/
@@ -84,7 +84,7 @@ and match `0xBugLabs{...}`.
 └── SECURITY.md           Isolation rules — read before running anything
 ```
 
-Browse the current lab list on the [catalog site](https://0xbuglabs.g3ksec.xyz/labs)
+Browse the current lab list on the [catalog site](https://buglabs.hxhunt.com/labs)
 or under [`labs/`](labs). Each one is a full app: real auth flows,
 bcrypt-hashed passwords, no "you found it!" banners or other tells baked
 into the UI.

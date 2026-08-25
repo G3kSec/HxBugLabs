@@ -34,7 +34,7 @@ point — treat every container here as hostile.
 The rules above describe the labs — they're *supposed* to be vulnerable.
 This section is for the opposite case: a real security problem in the
 catalog site itself (deployed at
-[0xbuglabs.g3ksec.xyz](https://0xbuglabs.g3ksec.xyz/)) or in the repo
+[buglabs.hxhunt.com](https://buglabs.hxhunt.com/)) or in the repo
 tooling (`scripts/validate.py`, `scripts/new_lab.py`, CI workflows).
 
 Open a [private security advisory](https://github.com/G3kSec/0xBugLabs/security/advisories/new)
