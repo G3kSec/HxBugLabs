@@ -33,7 +33,7 @@ const CACHE_ENABLED = process.env.NODE_ENV !== "development";
    reading this code. */
 
 function fail(file: string, message: string): never {
-  throw new Error(`[0xBugLabs] ${file}: ${message}`);
+  throw new Error(`[HxBugLabs] ${file}: ${message}`);
 }
 
 type RawRecord = Record<string, unknown>;

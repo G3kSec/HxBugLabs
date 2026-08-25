@@ -1,4 +1,4 @@
-# 0xBugLabs
+# HxBugLabs
 
 Self-hosted, Docker-based vulnerable labs for practicing bug bounty web
 vulnerabilities and recon techniques — plus a catalog site to browse and run
@@ -14,7 +14,7 @@ containers, catalog site live. Still actively adding labs and polish.
 One lab = one self-contained folder: a `docker-compose.yml` that runs it,
 and a `lab.yaml` that describes it. No database — the catalog site reads
 every `lab.yaml` at build time, same content-as-code model already running
-in [0xBugLetter](https://github.com/G3kSec/0xBugLetter). Only the catalog
+in [HxBugLetter](https://github.com/G3kSec/HxBugLetter). Only the catalog
 site deploys anywhere (Vercel); the labs themselves never leave your
 machine.
 

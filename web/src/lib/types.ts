@@ -1,5 +1,5 @@
 /**
- * 0xBugLabs data models.
+ * HxBugLabs data models.
  *
  * All content lives as YAML under `labs/` and `data/taxonomy.yaml`, parsed
  * at build time. These types are the contract that `scripts/validate.py`

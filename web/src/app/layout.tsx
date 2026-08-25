@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 
 import "./globals.css";
 
-// Same pairing as the rest of the 0x family, so the sites read as one
+// Same pairing as the rest of the HxHunt family, so the sites read as one
 // design language rather than unrelated projects.
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -24,8 +24,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "0xBugLabs | by G3kSec",
-    template: "%s · 0xBugLabs",
+    default: "HxBugLabs | by HxHunt",
+    template: "%s · HxBugLabs",
   },
   description:
     "Self-hosted, Docker-based labs for practicing bug bounty vulnerabilities and recon techniques. Browse the catalog, run every lab locally.",
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
     "penetration testing practice",
     "ctf",
   ],
-  authors: [{ name: "G3kSec", url: "https://github.com/G3kSec" }],
+  authors: [{ name: "HxHunt", url: "https://hxhunt.com" }],
   openGraph: {
-    title: "0xBugLabs — Self-hosted bug bounty practice labs",
+    title: "HxBugLabs — Self-hosted bug bounty practice labs",
     description:
       "Docker-based labs for practicing bug bounty vulnerabilities and recon techniques, browsable in one catalog.",
     type: "website",

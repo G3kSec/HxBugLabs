@@ -1,4 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#0a0a0a"/>
-  <text x="16" y="22" text-anchor="middle" font-family="monospace" font-weight="bold" font-size="16" fill="#4ade80">0x</text>
+  <rect width="32" height="32" rx="6" fill="#1E201E"/>
+  <!-- Pixel "H" mark, crossbar rendered as a checker to echo the HxHunt wordmark's H/X overlap -->
+  <rect x="7" y="7" width="5" height="18" fill="#F6F4F0"/>
+  <rect x="20" y="7" width="5" height="18" fill="#F6F4F0"/>
+  <rect x="12" y="13" width="4" height="4" fill="#F6F4F0"/>
+  <rect x="16" y="17" width="4" height="4" fill="#F6F4F0"/>
+  <rect x="12" y="17" width="4" height="4" fill="#5a7a52"/>
+  <rect x="16" y="13" width="4" height="4" fill="#5a7a52"/>
 </svg>

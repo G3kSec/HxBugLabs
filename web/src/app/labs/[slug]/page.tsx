@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Chip, DifficultyBadge } from "@/components/ui";
 import { getLabBySlug, getLabs } from "@/lib/content";
 
-const REPO_URL = "https://github.com/G3kSec/0xBugLabs";
+const REPO_URL = "https://github.com/G3kSec/HxBugLabs";
 
 export function generateStaticParams() {
   return getLabs().map((lab) => ({ slug: lab.slug }));
@@ -73,7 +73,7 @@ export default async function LabDetailPage({
         <p className="label mb-3">Run it locally</p>
         <pre className="overflow-x-auto rounded-sm bg-surface-2 p-3 font-mono text-sm text-ink">
           <code>{`git clone ${REPO_URL}.git
-cd 0xBugLabs/labs/${lab.dirPath}
+cd HxBugLabs/labs/${lab.dirPath}
 docker compose up -d`}</code>
         </pre>
         <p className="mt-3 text-sm text-ink-2">

@@ -36,7 +36,7 @@ export default function HomePage() {
               Browse the labs
             </Link>
             <a
-              href="https://github.com/G3kSec/0xBugLabs"
+              href="https://github.com/G3kSec/HxBugLabs"
               target="_blank"
               rel="noreferrer noopener"
               className="rounded-sm border border-line px-4 py-2 font-mono text-xs text-ink-2 transition-colors hover:border-line-strong hover:text-ink"

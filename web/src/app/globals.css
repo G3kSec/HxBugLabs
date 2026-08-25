@@ -1,42 +1,45 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════
-   0xBugLabs — Design tokens
+   HxBugLabs — Design tokens
 
-   Green accent, shared with the rest of the 0x family (0xBugLetter,
-   portfolio, 0xHashFavicon). Neutrals carry a slight green bias so the
-   accent reads as part of the surface rather than pasted on top of it.
+   HxHunt brand palette: near-black ground (#121212) with a saturated red
+   accent (#E5252B) in dark mode, #F6F4F0 / #BD4444 in light — same
+   tokens as the rest of the HxHunt family (HxHunt, HxHashFavicon).
 
-   The difficulty ramp (green → amber → red) stays close to the accent hue
-   on purpose — "Easy" and the brand color are the same idea here, unlike a
-   CVSS severity ramp which has to stay clearly separate from branding.
+   The difficulty ramp (green → amber → red) used to sit close to the
+   accent hue on purpose, back when the brand itself was green. That
+   coupling breaks now: the accent is red, and diff-hard is *also* red —
+   tying diff-easy to the accent would make "Easy" and "Hard" collide.
+   So the ramp is now fully decoupled from the brand accent, same
+   treatment as the CVSS ramp gets in HxBugLetter.
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
   /* Surfaces */
-  --ground: #f7faf8;
+  --ground: #f6f4f0;
   --surface: #ffffff;
-  --surface-2: #eaf1ec;
-  --surface-3: #dde8e0;
+  --surface-2: #ece9e2;
+  --surface-3: #ded9d0;
 
   /* Borders */
-  --border: #d2e0d6;
-  --border-subtle: #e6eee9;
-  --border-strong: #b5c8bb;
+  --border: #ded9d0;
+  --border-subtle: #e7e3db;
+  --border-strong: #c7c1b5;
 
   /* Text */
-  --text: #0b0e0b;
-  --text-2: #4f5a52;
-  --text-3: #66756b;
+  --text: #1e201e;
+  --text-2: #52594e;
+  --text-3: #6b6d63;
 
   /* Accent */
-  --accent: #006e34;
-  --accent-hover: #005527;
-  --accent-contrast: #f8fef8;
-  --accent-bg: #006e3414;
-  --accent-border: #006e3440;
+  --accent: #bd4444;
+  --accent-hover: #a13a3a;
+  --accent-contrast: #f6f4f0;
+  --accent-bg: #bd444414;
+  --accent-border: #bd444440;
 
-  /* Difficulty ramp */
+  /* Difficulty ramp — deliberately independent of the brand accent */
   --diff-easy: #1a7a3e;
   --diff-easy-bg: #1a7a3e14;
   --diff-medium: #a86a06;
@@ -44,35 +47,35 @@
   --diff-hard: #b4162c;
   --diff-hard-bg: #b4162c14;
 
-  --shadow-sm: 0 1px 2px rgb(11 14 11 / 0.05);
-  --shadow-md: 0 2px 10px rgb(11 14 11 / 0.07);
-  --shadow-lg: 0 8px 30px rgb(11 14 11 / 0.1);
+  --shadow-sm: 0 1px 2px rgb(30 32 30 / 0.05);
+  --shadow-md: 0 2px 10px rgb(30 32 30 / 0.07);
+  --shadow-lg: 0 8px 30px rgb(30 32 30 / 0.1);
 
-  --grid-line: #0b0e0b0a;
+  --grid-line: #1e201e0a;
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ground: #070907;
-    --surface: #0d110e;
-    --surface-2: #131a15;
-    --surface-3: #152317;
+    --ground: #121212;
+    --surface: #1a1a1a;
+    --surface-2: #212121;
+    --surface-3: #292929;
 
-    --border: #1f2a21;
-    --border-subtle: #161e17;
-    --border-strong: #314234;
+    --border: #2e2e2e;
+    --border-subtle: #1c1c1c;
+    --border-strong: #404040;
 
-    --text: #e5e9e5;
-    --text-2: #939e95;
-    --text-3: #727f75;
+    --text: #f5f5f5;
+    --text-2: #9e9e9e;
+    --text-3: #6e6e6e;
 
-    --accent: #46d76f;
-    --accent-hover: #6ce28d;
-    --accent-contrast: #070907;
-    --accent-bg: #46d76f1a;
-    --accent-border: #46d76f4d;
+    --accent: #e5252b;
+    --accent-hover: #ea5155;
+    --accent-contrast: #ffffff;
+    --accent-bg: #e5252b1a;
+    --accent-border: #e5252b4d;
 
     --diff-easy: #4ade80;
     --diff-easy-bg: #4ade801a;
@@ -81,11 +84,11 @@
     --diff-hard: #ff6d80;
     --diff-hard-bg: #ff6d801a;
 
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
-    --shadow-md: 0 2px 10px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 8px 30px rgb(0 0 0 / 0.5);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+    --shadow-md: 0 2px 10px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 8px 30px rgb(0 0 0 / 0.6);
 
-    --grid-line: #e5e9e50a;
+    --grid-line: #f5f5f50a;
 
     color-scheme: dark;
   }
@@ -93,24 +96,24 @@
 
 /* The explicit toggle has to beat the media query in both directions. */
 :root[data-theme="dark"] {
-  --ground: #070907;
-  --surface: #0d110e;
-  --surface-2: #131a15;
-  --surface-3: #152317;
+  --ground: #121212;
+  --surface: #1a1a1a;
+  --surface-2: #212121;
+  --surface-3: #292929;
 
-  --border: #1f2a21;
-  --border-subtle: #161e17;
-  --border-strong: #314234;
+  --border: #2e2e2e;
+  --border-subtle: #1c1c1c;
+  --border-strong: #404040;
 
-  --text: #e5e9e5;
-  --text-2: #939e95;
-  --text-3: #727f75;
+  --text: #f5f5f5;
+  --text-2: #9e9e9e;
+  --text-3: #6e6e6e;
 
-  --accent: #46d76f;
-  --accent-hover: #6ce28d;
-  --accent-contrast: #070907;
-  --accent-bg: #46d76f1a;
-  --accent-border: #46d76f4d;
+  --accent: #e5252b;
+  --accent-hover: #ea5155;
+  --accent-contrast: #ffffff;
+  --accent-bg: #e5252b1a;
+  --accent-border: #e5252b4d;
 
   --diff-easy: #4ade80;
   --diff-easy-bg: #4ade801a;
@@ -119,34 +122,34 @@
   --diff-hard: #ff6d80;
   --diff-hard-bg: #ff6d801a;
 
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
-  --shadow-md: 0 2px 10px rgb(0 0 0 / 0.4);
-  --shadow-lg: 0 8px 30px rgb(0 0 0 / 0.5);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-md: 0 2px 10px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 8px 30px rgb(0 0 0 / 0.6);
 
-  --grid-line: #e5e9e50a;
+  --grid-line: #f5f5f50a;
 
   color-scheme: dark;
 }
 
 :root[data-theme="light"] {
-  --ground: #f7faf8;
+  --ground: #f6f4f0;
   --surface: #ffffff;
-  --surface-2: #eaf1ec;
-  --surface-3: #dde8e0;
+  --surface-2: #ece9e2;
+  --surface-3: #ded9d0;
 
-  --border: #d2e0d6;
-  --border-subtle: #e6eee9;
-  --border-strong: #b5c8bb;
+  --border: #ded9d0;
+  --border-subtle: #e7e3db;
+  --border-strong: #c7c1b5;
 
-  --text: #0b0e0b;
-  --text-2: #4f5a52;
-  --text-3: #66756b;
+  --text: #1e201e;
+  --text-2: #52594e;
+  --text-3: #6b6d63;
 
-  --accent: #006e34;
-  --accent-hover: #005527;
-  --accent-contrast: #f8fef8;
-  --accent-bg: #006e3414;
-  --accent-border: #006e3440;
+  --accent: #bd4444;
+  --accent-hover: #a13a3a;
+  --accent-contrast: #f6f4f0;
+  --accent-bg: #bd444414;
+  --accent-border: #bd444440;
 
   --diff-easy: #1a7a3e;
   --diff-easy-bg: #1a7a3e14;
@@ -155,11 +158,11 @@
   --diff-hard: #b4162c;
   --diff-hard-bg: #b4162c14;
 
-  --shadow-sm: 0 1px 2px rgb(11 14 11 / 0.05);
-  --shadow-md: 0 2px 10px rgb(11 14 11 / 0.07);
-  --shadow-lg: 0 8px 30px rgb(11 14 11 / 0.1);
+  --shadow-sm: 0 1px 2px rgb(30 32 30 / 0.05);
+  --shadow-md: 0 2px 10px rgb(30 32 30 / 0.07);
+  --shadow-lg: 0 8px 30px rgb(30 32 30 / 0.1);
 
-  --grid-line: #0b0e0b0a;
+  --grid-line: #1e201e0a;
 
   color-scheme: light;
 }

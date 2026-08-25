@@ -6,7 +6,7 @@ import { getLabs } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Labs",
   description:
-    "Browse the 0xBugLabs catalog — self-hosted, Docker-based labs for practicing bug bounty vulnerabilities and recon techniques.",
+    "Browse the HxBugLabs catalog — self-hosted, Docker-based labs for practicing bug bounty vulnerabilities and recon techniques.",
 };
 
 export default function LabsPage() {

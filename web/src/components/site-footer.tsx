@@ -19,16 +19,16 @@ export function SiteFooter() {
             <path d="M12 19h8" />
           </svg>
           <p className="font-mono text-sm tracking-tight">
-            <span className="text-accent">0x</span>
+            <span className="text-accent">Hx</span>
             <span className="text-ink">BugLabs</span>
             <span className="text-ink-3"> — by </span>
             <a
-              href="https://github.com/G3kSec"
+              href="https://hxhunt.com"
               target="_blank"
               rel="noreferrer noopener"
               className="text-ink-2 transition-colors hover:text-accent"
             >
-              G3kSec
+              HxHunt
             </a>
           </p>
         </div>
@@ -38,12 +38,12 @@ export function SiteFooter() {
             Labs
           </Link>
           <a
-            href="https://github.com/G3kSec/0xBugLabs"
+            href="https://www.linkedin.com/company/hxhunt"
             target="_blank"
             rel="noreferrer noopener"
             className="label transition-colors hover:!text-accent"
           >
-            GitHub
+            LinkedIn
           </a>
           <p className="label nums">&copy; {new Date().getFullYear()}</p>
         </div>
