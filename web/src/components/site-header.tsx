@@ -6,7 +6,7 @@ const NAV = [{ href: "/labs", label: "Labs" }] as const;
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-9 z-50 border-b border-line-subtle bg-ground/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-line-subtle bg-ground/85 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-5">
         <Link
           href="/"
