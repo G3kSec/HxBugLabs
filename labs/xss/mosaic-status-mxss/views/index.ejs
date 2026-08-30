@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Mosaic Status</title></head>
+<body>
+<div class="top">
+  <b>Mosaic Status</b>
+  <span class="spacer"></span>
+  <% if (user) { %><span class="muted"><%= user.name %></span> <a href="/logout">Sign out</a>
+  <% } else { %><a href="/login">Sign in</a><% } %>
+</div>
+<main>
+  <h1>Platform status</h1>
+  <p class="muted">Incident history and live updates for the Mosaic payments platform.</p>
+  <% incidents.forEach(function (i) { %>
+    <div class="panel">
+      <div class="muted"><%= i.id %> · opened <%= i.opened %></div>
+      <h2 style="margin:.2rem 0"><a href="/incidents/<%= i.id %>"><%= i.title %></a></h2>
+      <span class="state <%= i.state %>"><%= i.state %></span>
+      <p class="muted"><%= i.summary %></p>
+    </div>
+  <% }) %>
+</main>
+<footer>Mosaic Payments · status.mosaic.example</footer>
+</body></html>

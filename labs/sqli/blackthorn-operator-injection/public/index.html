@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blackthorn ATS</title>
+<style>
+  body { font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; margin:0; background:#f7f8f7; color:#161a17; }
+  .top { background:#173a2a; color:#d8ece0; padding:.9rem 1.5rem; letter-spacing:.08em; font-size:.88rem; font-weight:600; }
+  main { max-width:46rem; margin:2.5rem auto; padding:0 1.5rem; }
+  h1 { font-size:1.4rem; margin:0 0 .4rem; }
+  h2 { font-size:1rem; margin:2rem 0 .6rem; }
+  .panel { background:#fff; border:1px solid #e0e5e1; border-radius:5px; padding:1rem 1.2rem; margin-bottom:.9rem; }
+  .muted { color:#5f6a63; font-size:.88rem; }
+  pre { background:#0f1f18; color:#cfe4d8; padding:.85rem; border-radius:4px; overflow:auto; font:12px/1.5 ui-monospace,Menlo,monospace; }
+  code { background:#eaefe c; background:#eaefec; padding:.1rem .3rem; border-radius:3px; font-size:.85em; }
+</style>
+</head>
+<body>
+<div class="top">BLACKTHORN ATS</div>
+<main>
+  <h1>Applicant tracking</h1>
+  <p class="muted">The recruiter console is a desktop client. This build ships the API only.</p>
+
+  <h2>API</h2>
+  <div class="panel">
+    <pre>POST /api/session                 {"email": "...", "password": "..."}
+POST /api/logout
+GET  /api/me
+
+POST /api/password-reset/request  {"email": "..."}
+POST /api/password-reset/verify   {"email": "...", "token": "...", "newPassword": "..."}
+
+POST /api/candidates/search       {"filter": { ... }}
+GET  /api/candidates/:id</pre>
+  </div>
+
+  <h2>Saved searches</h2>
+  <div class="panel">
+    <p class="muted">The console builds filters client-side so recruiters can combine
+      conditions the API never had to anticipate. A filter is a plain object:</p>
+    <pre>{"filter": {"stage": "onsite"}}
+{"filter": {"location": "Rotterdam", "stage": {"$ne": "rejected"}}}
+{"filter": {"compensation.expected": {"$lte": 90000}}}</pre>
+    <p class="muted">Responses carry <code>id</code>, <code>name</code>,
+      <code>headline</code>, <code>location</code>, <code>stage</code> and
+      <code>skills</code>. Compensation and scorecards are filterable but never
+      returned.</p>
+  </div>
+</main>
+</body>
+</html>

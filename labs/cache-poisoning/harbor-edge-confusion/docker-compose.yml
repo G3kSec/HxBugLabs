@@ -1,0 +1,27 @@
+services:
+  edge:
+    build: ./edge
+    container_name: hxbuglabs-harbor-edge
+    ports:
+      - "8087:8087"
+    environment:
+      ORIGIN_URL: "http://origin:8080"
+    networks:
+      - default   # published to the host
+      - backend   # and the only thing that can reach the origin
+    restart: unless-stopped
+
+  # The application itself is never published. Everything the player does
+  # goes through the edge, which is the point of the lab.
+  origin:
+    build: ./origin
+    container_name: hxbuglabs-harbor-origin
+    environment:
+      EDGE_URL: "http://edge:8087"
+    networks:
+      - backend
+    restart: unless-stopped
+
+networks:
+  backend:
+    internal: true

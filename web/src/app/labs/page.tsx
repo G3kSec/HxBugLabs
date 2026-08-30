@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { LabCatalog } from "@/components/lab-catalog";
+import { CatalogProgress } from "@/components/lab-progress";
 import { getLabs } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -23,9 +24,14 @@ export default function LabsPage() {
           <code className="rounded-sm bg-surface-2 px-1 py-0.5 font-mono text-sm">
             docker compose up -d
           </code>
-          .
+          . Capture a flag, paste it on the lab&apos;s page, and this browser
+          remembers it.
         </p>
       </header>
+
+      <CatalogProgress
+        labs={labs.map((lab) => ({ slug: lab.slug, objectives: lab.objectives.length }))}
+      />
 
       <LabCatalog labs={labs} />
     </div>

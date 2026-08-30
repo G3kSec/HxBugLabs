@@ -1,0 +1,38 @@
+services:
+  quill:
+    build: ./quill
+    container_name: hxbuglabs-quill
+    ports:
+      - "8083:8083"
+    networks:
+      - default   # published to the host, like any single-service lab
+      - internal  # and bridged into the network the player has to reach through it
+    restart: unless-stopped
+
+  # Stands in for the cloud instance metadata service. On a real instance
+  # this answers on the link-local address 169.254.169.254; Docker will not
+  # hand a container an address in that range, so the lab gives it a name
+  # on an internal network instead. The paths are the real ones.
+  imds:
+    build: ./imds
+    container_name: hxbuglabs-quill-imds
+    networks:
+      internal:
+        aliases:
+          - metadata.internal
+    restart: unless-stopped
+
+  # Internal artifact store. Trusts any caller presenting a role token
+  # issued by the metadata service — no network policy, no audience check.
+  artifacts:
+    build: ./artifacts
+    container_name: hxbuglabs-quill-artifacts
+    networks:
+      internal:
+        aliases:
+          - artifacts.internal
+    restart: unless-stopped
+
+networks:
+  internal:
+    internal: true

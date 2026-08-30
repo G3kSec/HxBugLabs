@@ -1,0 +1,47 @@
+title: "Atlas Payroll — the OTP that never expires"
+slug: "atlas-stepup-mfa"
+category: "Auth"
+difficulty: "Medium"
+tech: ["Node.js", "Express", "EJS", "One-time codes"]
+port: 8082
+
+description: >-
+  Atlas Payroll gates every account behind a second factor: a numeric code
+  mailed on each sign-in. You have an analyst seat and a corporate
+  mailbox. Somewhere above you sits a payroll administrator who can
+  approve runs and see every salary in the company. The password policy,
+  the sign-in errors and the code delivery each look reasonable on their
+  own — the account takeover lives in how they interact.
+
+objectives:
+  - id: "pre-auth-profile-leak"
+    title: "Read an account's profile before passing its second factor"
+    description: >-
+      Get to the code-entry screen for an account that is not yours, and
+      notice how much the application is willing to tell you while it
+      still considers you unauthenticated.
+    flag: "HxBugLabs{h4lf_4uth3nt1c4t3d_1s_4uth3nt1c4t3d}"
+    hints:
+      - "The sign-in form does not answer the same way for an address that exists and one that does not."
+      - "New hires do not choose their first password. The help centre explains who does, and how."
+      - "The code-entry page greets you by name and role. Something had to fetch that, and it fetched it for a session that has not passed MFA."
+
+  - id: "otp-code-accumulation"
+    title: "Sign in as the payroll administrator without ever seeing their code"
+    description: >-
+      The code is short, the attempt limit looks strict, and you have no
+      access to their mailbox. Read the resend flow carefully — it is
+      generous in more ways than one.
+    flag: "HxBugLabs{r3s3nd_st4ck3d_th3_k3ysp4c3_1n_y0ur_f4v0ur}"
+    hints:
+      - "Count the digits in a code that arrives in your own mailbox. Then work out the size of the keyspace."
+      - "Requesting a new code does not stop the old one from working, and it does something helpful to your remaining attempts."
+      - "Every extra live code multiplies your odds per guess. Stack enough of them and a few hundred requests is enough."
+
+tags:
+  - "mfa-bypass"
+  - "otp-brute-force"
+  - "user-enumeration"
+  - "password-spraying"
+  - "account-takeover"
+  - "rate-limit-bypass"

@@ -1,0 +1,7 @@
+services:
+  blackthorn:
+    build: .
+    container_name: hxbuglabs-blackthorn-operator-injection
+    ports:
+      - "8090:8090"
+    restart: unless-stopped

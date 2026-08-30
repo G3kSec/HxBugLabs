@@ -1,0 +1,10 @@
+services:
+  lantern:
+    build: .
+    container_name: hxbuglabs-lantern-campaign-preview
+    ports:
+      - "8092:8092"
+    restart: unless-stopped
+
+# This lab ends in command execution inside the container. That is the
+# objective, not an accident — read SECURITY.md before running it.

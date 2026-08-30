@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title><%= doc.title %> — Clearline</title></head>
+<body>
+<div class="top">
+  <b>Clearline</b><span class="ws"><%= workspace.name %></span>
+  <span class="spacer"></span>
+  <span class="meta"><%= user.name %></span> · <a href="/logout">Sign out</a>
+</div>
+<main>
+  <p class="meta"><a href="/documents">&larr; Contracts</a></p>
+  <h1><%= doc.title %></h1>
+  <div class="card">
+    <div class="meta">
+      <%= doc.counterparty %> · <%= doc.value %> · <span class="pill"><%= doc.status %></span>
+    </div>
+    <p><%= doc.body %></p>
+  </div>
+  <p class="meta">Document ID <code><%= doc.id %></code></p>
+</main>
+</body></html>

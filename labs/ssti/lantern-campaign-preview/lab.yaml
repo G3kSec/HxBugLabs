@@ -1,0 +1,46 @@
+title: "Lantern — a preview that renders more than the preview"
+slug: "lantern-campaign-preview"
+category: "SSTI"
+difficulty: "Hard"
+tech: ["Node.js", "Express", "Nunjucks", "Templates"]
+port: 8092
+
+description: >-
+  Lantern is an email marketing tool. Campaigns are written as templates
+  with merge tags — {{ recipient.firstName }}, {{ campaign.subject }} —
+  and there is a preview button that renders yours against a sample
+  recipient. The template you write is compiled by the server, in the
+  server's process. A denylist stands between you and the parts of that
+  process you are not meant to touch, and it is checking the wrong thing.
+
+objectives:
+  - id: "read-the-render-context"
+    title: "Read something the merge tags were never meant to expose"
+    description: >-
+      The preview hands your template a context object. Find out how much
+      of it the renderer actually passes in, without bypassing anything.
+    flag: "HxBugLabs{th3_c0nt3xt_1s_wh4t3v3r_y0u_p4ss3d_1t}"
+    hints:
+      - "Merge tags are not a fixed list — they are property lookups on whatever object the renderer was given."
+      - "Try the objects the documentation does not mention. Workspace-level settings have to live somewhere."
+      - "Dump a whole object rather than guessing leaf names."
+
+  - id: "escape-to-the-process"
+    title: "Read a file off the container's disk"
+    description: >-
+      The preview refuses templates containing certain words. The words
+      are checked against the template text, and the template text is not
+      what the engine ultimately evaluates.
+    flag: "HxBugLabs{d3nyl1sts_f1lt3r_str1ngs_n0t_s3m4nt1cs}"
+    hints:
+      - "Read the rejection message and work out exactly which literal strings are blocked."
+      - "A template can build a property name from pieces. The engine looks up whatever the expression evaluates to."
+      - "Every JavaScript object's constructor gives you a function constructor, and from there the whole process."
+
+tags:
+  - "ssti"
+  - "template-injection"
+  - "nunjucks"
+  - "denylist-bypass"
+  - "rce"
+  - "sandbox-escape"

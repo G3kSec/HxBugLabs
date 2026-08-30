@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Contracts — Clearline</title></head>
+<body>
+<div class="top">
+  <b>Clearline</b><span class="ws"><%= workspace.name %></span>
+  <span class="spacer"></span>
+  <span class="meta"><%= user.name %></span> · <a href="/logout">Sign out</a>
+</div>
+<main>
+  <h1>Contracts</h1>
+
+  <div class="card">
+    <input type="text" id="q" placeholder="Search contracts…" autocomplete="off">
+    <div id="results" class="meta" style="margin-top:.75rem"></div>
+  </div>
+
+  <% documents.forEach(function (doc) { %>
+    <div class="card">
+      <h3><a href="/documents/<%= doc.id %>"><%= doc.title %></a></h3>
+      <div class="meta"><%= doc.counterparty %> · <%= doc.value %> · <span class="pill"><%= doc.status %></span></div>
+    </div>
+  <% }) %>
+</main>
+
+<script>
+  // The search endpoint is shared with the admin console, which is allowed
+  // to see every workspace. Regular seats filter the response down to the
+  // workspace they are signed in to before rendering.
+  var WORKSPACE_ID = <%- JSON.stringify(workspace.id) %>;
+  var box = document.getElementById("q");
+  var out = document.getElementById("results");
+  var timer;
+
+  box.addEventListener("input", function () {
+    clearTimeout(timer);
+    timer = setTimeout(run, 200);
+  });
+
+  async function run() {
+    var q = box.value.trim();
+    if (q.length < 2) { out.textContent = ""; return; }
+
+    var res = await fetch("/api/v2/search?q=" + encodeURIComponent(q), {
+      headers: { Accept: "application/json" },
+    });
+    var data = await res.json();
+
+    var mine = data.results.filter(function (r) { return r.workspaceId === WORKSPACE_ID; });
+    if (!mine.length) { out.textContent = "No contracts match."; return; }
+
+    out.innerHTML = mine
+      .map(function (r) {
+        return '<div><a href="/documents/' + r.id + '">' + r.title + "</a></div>";
+      })
+      .join("");
+  }
+</script>
+</body></html>

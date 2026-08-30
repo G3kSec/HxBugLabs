@@ -1,0 +1,57 @@
+title: "Orion Treasury — a schema you are not allowed to read"
+slug: "orion-blind-schema"
+category: "API / GraphQL"
+difficulty: "Hard"
+tech: ["Node.js", "Express", "GraphQL", "graphql-js"]
+port: 8086
+
+description: >-
+  Orion is the treasury console a mid-sized bank gives its corporate
+  customers. Everything the front end does goes through one GraphQL
+  endpoint. Introspection is switched off in production, there is no
+  schema file in the bundle, and the rate limiter on the sensitive
+  mutation is real. You are expected to conclude there is nothing to see.
+  Everything you need to map and break this API, the API itself will tell
+  you.
+
+objectives:
+  - id: "map-the-hidden-query"
+    title: "Find a query the front end never calls"
+    description: >-
+      Introspection returns nothing. Recover enough of the schema anyway
+      to find an operation the UI has no button for, and call it.
+    flag: "HxBugLabs{d1d_y0u_m34n_th3_wh0l3_schem4}"
+    hints:
+      - "Ask for a field that does not exist and read the error message very carefully. GraphQL is trying to be helpful."
+      - "Suggestions are edit-distance based. Feed it prefixes and two-character stubs and it will complete them for you — that is exactly what clairvoyance automates."
+      - "The interesting operation is on Query, it takes an argument, and its name is about reconciliation."
+
+  - id: "batch-past-the-limiter"
+    title: "Brute-force a four-digit PIN the rate limiter is supposed to protect"
+    description: >-
+      Confirming a new payee needs a PIN. Ten attempts per minute, counted
+      properly, and it locks. Count what it is actually counting.
+    flag: "HxBugLabs{4l14s3s_4r3_fr33_r3qu3sts_4r3_n0t}"
+    hints:
+      - "Send the same mutation twice in one document, under two aliases, and watch the counter."
+      - "The limiter runs once per HTTP request. A GraphQL document can carry as many operations as you can fit in it."
+      - "Ten thousand aliases in one POST is a large body, not a hard problem. Generate it, do not type it."
+
+  - id: "nested-resolver-authz"
+    title: "Read a field the top-level query would have refused you"
+    description: >-
+      One type checks who is asking. The type it returns does not, and you
+      can reach the second one through an object you are allowed to see.
+    flag: "HxBugLabs{4uthz_0n_th3_3dg3_n0t_th3_n0d3}"
+    hints:
+      - "Compare what happens when you ask for a counterparty directly versus reaching it through a transaction on your own account."
+      - "Authorization was written on the query resolver, not on the type's own field resolvers."
+      - "Every path to a type is a path an attacker gets to choose."
+
+tags:
+  - "graphql"
+  - "introspection-disabled"
+  - "field-suggestion"
+  - "alias-batching"
+  - "rate-limit-bypass"
+  - "broken-object-level-authorization"

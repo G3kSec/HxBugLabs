@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Sign in — Atlas Payroll</title></head>
+<body>
+<div class="top"><b>ATLAS PAYROLL</b><span class="spacer"></span><a href="/help/first-sign-in">Help</a></div>
+<main style="max-width:23rem">
+  <h1>Sign in</h1>
+  <% if (error) { %><div class="err"><%= error %></div><% } %>
+  <form method="post" action="/login">
+    <p><label>Work email<br><input type="email" name="email" value="<%= email %>" autocomplete="username" required></label></p>
+    <p><label>Password<br><input type="password" name="password" autocomplete="current-password" required></label></p>
+    <button type="submit">Continue</button>
+  </form>
+  <p class="muted" style="margin-top:1.25rem">
+    New to Atlas? <a href="/help/first-sign-in">Signing in for the first time</a>
+  </p>
+</main>
+</body></html>

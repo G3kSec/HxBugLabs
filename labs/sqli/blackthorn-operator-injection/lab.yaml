@@ -1,0 +1,45 @@
+title: "Blackthorn ATS — the query you were allowed to write"
+slug: "blackthorn-operator-injection"
+category: "SQL / NoSQL Injection"
+difficulty: "Medium"
+tech: ["Node.js", "Express", "Document store", "JSON query operators"]
+port: 8090
+
+description: >-
+  Blackthorn is an applicant tracking system on a document database. The
+  login form was hardened after a pentest — it coerces both fields to
+  strings before they reach the query, and you can watch that hold. Two
+  other endpoints take a JSON body and pass its values into the same
+  query engine untouched. One of them lets you become someone else; the
+  other answers yes or no about fields it never returns, which is all a
+  patient attacker needs.
+
+objectives:
+  - id: "reset-someone-elses-password"
+    title: "Take over an account whose reset token you do not have"
+    description: >-
+      The reset flow checks that the token you present matches the token
+      on record. Make that comparison true without knowing the value.
+    flag: "HxBugLabs{4n_0p3r4t0r_1s_n0t_4_str1ng}"
+    hints:
+      - "The login endpoint coerces its inputs. Check whether the reset endpoint does the same."
+      - "A JSON value can be an object. What does the matcher do when it receives one where it expected a string?"
+      - "You do not need the token to be right. You need the comparison to be true."
+
+  - id: "exfiltrate-a-hidden-field"
+    title: "Read a field the search endpoint never returns"
+    description: >-
+      Candidate search filters on fields it does not include in the
+      response. Turn that into a way to read one, character by character.
+    flag: "HxBugLabs{bl1nd_r3g3x_1s_st1ll_4_r34d_pr1m1t1v3}"
+    hints:
+      - "The filter object is passed through as-is. Try an operator on a field that is not in the response."
+      - "A result count that changes with your filter is a boolean oracle."
+      - "Anchor a regex at the start and extend it one character at a time — a couple of hundred requests recovers the value."
+
+tags:
+  - "nosql-injection"
+  - "operator-injection"
+  - "authentication-bypass"
+  - "blind-injection"
+  - "regex-oracle"

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kestrel Reports</title>
+<style>
+  body { font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; margin:0; background:#f6f7f9; color:#131a22; }
+  .top { background:#1c2733; color:#dbe4ec; padding:.9rem 1.5rem; letter-spacing:.06em; font-size:.9rem; font-weight:600; }
+  main { max-width:44rem; margin:2.5rem auto; padding:0 1.5rem; }
+  h1 { font-size:1.35rem; margin:0 0 .5rem; }
+  .panel { background:#fff; border:1px solid #e2e6ea; border-radius:6px; padding:1.1rem 1.3rem; margin-bottom:1rem; }
+  .muted { color:#65707c; font-size:.88rem; }
+  code { background:#eef1f4; padding:.1rem .3rem; border-radius:3px; font-size:.85em; }
+  pre { background:#1c2733; color:#cfdae6; padding:.9rem; border-radius:5px; overflow:auto; font:12px/1.5 ui-monospace,Menlo,monospace; }
+</style>
+</head>
+<body>
+<div class="top">KESTREL REPORTS</div>
+<main>
+  <h1>Workspace API</h1>
+  <p class="muted">Kestrel has no web UI yet — the desktop client talks to
+    this API directly. Every route takes a session cookie.</p>
+
+  <div class="panel">
+    <pre>POST   /api/session            {"email": "...", "password": "..."}
+POST   /api/logout
+
+GET    /api/preferences        your preference document
+PATCH  /api/preferences        deep-merges the JSON body into it
+
+GET    /api/reports            reports in your workspace
+GET    /api/exports            full-fidelity export      (needs exports:read)
+POST   /api/reports/:id/render hands a report to the engine (needs reports:render)</pre>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:0">Roles</h3>
+    <p class="muted"><code>analyst</code> can read reports.
+      <code>finance</code> can also render and export.
+      <code>admin</code> can do both plus manage the workspace.
+      Your account is an analyst.</p>
+  </div>
+</main>
+</body>
+</html>

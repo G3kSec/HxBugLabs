@@ -1,0 +1,4 @@
+# Files uploaded while the lab runs. The directory itself is tracked via
+# .gitkeep so the container has somewhere to write on first boot.
+uploads/*
+!uploads/.gitkeep

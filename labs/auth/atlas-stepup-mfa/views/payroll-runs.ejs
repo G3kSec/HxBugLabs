@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Payroll runs — Atlas</title></head>
+<body>
+<div class="top"><b>ATLAS PAYROLL</b><a href="/dashboard">Dashboard</a><span class="spacer"></span><a href="/logout">Sign out</a></div>
+<main>
+  <h1>Payroll runs</h1>
+  <div class="panel">
+    <table>
+      <tr><th>Run</th><th>Period</th><th>Headcount</th><th>Gross</th><th>State</th></tr>
+      <% runs.forEach(function (r) { %>
+        <tr><td><code><%= r.id %></code></td><td><%= r.period %></td><td><%= r.headcount %></td><td><%= r.gross %></td><td><%= r.state %></td></tr>
+      <% }) %>
+    </table>
+  </div>
+  <div class="panel">
+    <p class="muted">Approver token for the EU run (required by the banking connector):</p>
+    <p><code><%= approvalToken %></code></p>
+  </div>
+</main>
+</body></html>

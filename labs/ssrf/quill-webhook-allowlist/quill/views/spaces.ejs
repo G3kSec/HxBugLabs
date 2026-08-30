@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title><%= user.space %> — Quill</title></head>
+<body>
+<div class="top">
+  <b>Quill</b><a href="/spaces">Pages</a><a href="/settings/webhooks">Webhooks</a>
+  <span class="spacer"></span><span class="muted"><%= user.name %></span><a href="/logout">Sign out</a>
+</div>
+<main>
+  <h1><%= user.space %></h1>
+  <% pages.forEach(function (p) { %>
+    <div class="panel">
+      <strong><%= p.title %></strong>
+      <div class="muted">Last updated <%= p.updated %></div>
+    </div>
+  <% }) %>
+</main>
+</body></html>

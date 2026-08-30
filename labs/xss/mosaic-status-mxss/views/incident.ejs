@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title><%= incident.title %> — Mosaic Status</title>
+<script src="/app.js" data-build="<%= buildId %>"></script></head>
+<body>
+<div class="top">
+  <b>Mosaic Status</b>
+  <span class="spacer"></span>
+  <% if (user) { %><span class="muted"><%= user.name %></span> <a href="/logout">Sign out</a>
+  <% } else { %><a href="/login">Sign in</a><% } %>
+</div>
+<main>
+  <p class="muted"><a href="/">&larr; All incidents</a></p>
+  <div class="muted"><%= incident.id %> · opened <%= incident.opened %></div>
+  <h1><%= incident.title %></h1>
+  <span class="state <%= incident.state %>"><%= incident.state %></span>
+  <p class="muted"><%= incident.summary %></p>
+
+  <h2>Timeline</h2>
+  <div class="panel">
+    <% incident.updates.forEach(function (u) { %>
+      <div class="comment"><div class="muted"><%= u.at %></div><%= u.text %></div>
+    <% }) %>
+  </div>
+
+  <h2>Customer comments</h2>
+  <% if (posted) { %><div class="ok">Comment posted.</div><% } %>
+  <% if (reported) { %><div class="ok">Reported. The on-call engineer will take a look.</div><% } %>
+
+  <div class="panel">
+    <% if (!comments.length) { %><p class="muted">No comments yet.</p><% } %>
+    <% comments.forEach(function (c) { %>
+      <div class="comment">
+        <div class="muted"><%= c.author %> · <%= c.postedAt %></div>
+        <%- c.body %>
+        <% if (user) { %>
+          <form method="post" action="/incidents/<%= incident.id %>/report" style="margin-top:.4rem">
+            <input type="hidden" name="commentId" value="<%= c.id %>">
+            <button class="ghost" type="submit">Report to on-call</button>
+          </form>
+        <% } %>
+      </div>
+    <% }) %>
+  </div>
+
+  <% if (user) { %>
+    <h2>Add a comment</h2>
+    <div class="panel">
+      <form method="post" action="/incidents/<%= incident.id %>/comments">
+        <p class="muted">Light formatting is allowed:
+          <code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;code&gt;</code>,
+          <code>&lt;p&gt;</code>, <code>&lt;ul&gt;/&lt;li&gt;</code>,
+          <code>&lt;a href&gt;</code>, <code>&lt;img src&gt;</code>.
+          Everything else is stripped.</p>
+        <p><textarea name="body" placeholder="Seeing the same on our side&hellip;"></textarea></p>
+        <button type="submit">Post comment</button>
+      </form>
+    </div>
+  <% } else { %>
+    <p class="muted"><a href="/login">Sign in</a> to comment.</p>
+  <% } %>
+</main>
+<footer><span id="build"></span> · Mosaic Payments</footer>
+</body></html>

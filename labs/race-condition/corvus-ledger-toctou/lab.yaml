@@ -1,0 +1,45 @@
+title: "Corvus Freightpay — the lock that guards the wrong door"
+slug: "corvus-ledger-toctou"
+category: "Race Condition"
+difficulty: "Medium"
+tech: ["Node.js", "Express", "EJS", "In-memory ledger"]
+port: 8084
+
+description: >-
+  Corvus is a freight settlement platform: you hold a credit balance, book
+  shipments against it, and cancel what you no longer need. The team has
+  clearly been burned by a race before — the endpoint you would attack
+  first is properly serialised, and you can watch it hold. The concurrency
+  bugs are in the two places nobody thought to lock, and they are worth
+  more than the one that is locked.
+
+objectives:
+  - id: "refund-limit-overrun"
+    title: "Get more credit back than you spent"
+    description: >-
+      Booking is safe. Look at what happens when a booking is undone, and
+      how many times the application is willing to undo the same one.
+    flag: "HxBugLabs{th3_r3fund_p4th_w4s_n3v3r_l0ck3d}"
+    hints:
+      - "Try the obvious target first and confirm for yourself that it is serialised. Knowing what is protected tells you what is not."
+      - "Cancelling reads the booking, calls out to the settlement service, and only then writes the state back. Two things can be inside that gap at once."
+      - "You do not need many. Twenty parallel requests against one booking is enough — send them together, not in a loop."
+
+  - id: "impossible-state"
+    title: "Put one booking in two states at once"
+    description: >-
+      Two different endpoints move a booking forward. Each one checks that
+      the booking is still open before it acts. Neither one checks what
+      the other is doing.
+    flag: "HxBugLabs{tw0_3ndp01nts_0n3_0bj3ct_z3r0_l0cks}"
+    hints:
+      - "A single-endpoint race is not the only kind. Ask what happens when two *different* state transitions run at the same moment."
+      - "Dispatch and cancel both start from `state === \"booked\"`. Fire one of each simultaneously."
+      - "The prize is a booking that was refunded and shipped — the audit view will tell you when you have it."
+
+tags:
+  - "race-condition"
+  - "toctou"
+  - "limit-overrun"
+  - "multi-endpoint-race"
+  - "business-logic"

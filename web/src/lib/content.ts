@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { load as loadYaml } from "js-yaml";
@@ -156,13 +157,17 @@ function parseObjective(file: string, index: number, raw: unknown): LabObjective
   }
   const obj = raw as RawRecord;
 
+  /* The flag is read here and immediately hashed. The plaintext never
+     leaves this function, so it cannot reach a client bundle even by
+     accident; the hash is what the flag checker compares against. */
+  const flag = requireString(label, obj, "flag");
+
   return {
     id: requireString(label, obj, "id"),
     title: requireString(label, obj, "title"),
     description: requireString(label, obj, "description"),
     hints: optionalNonEmptyStringArray(label, obj, "hints"),
-    // "flag" exists in the YAML but is intentionally never read here — see
-    // the note on LabObjective in types.ts.
+    flagHash: crypto.createHash("sha256").update(flag, "utf8").digest("hex"),
   };
 }
 

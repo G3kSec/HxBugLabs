@@ -1,0 +1,7 @@
+services:
+  corvus:
+    build: .
+    container_name: hxbuglabs-corvus-ledger-toctou
+    ports:
+      - "8084:8084"
+    restart: unless-stopped

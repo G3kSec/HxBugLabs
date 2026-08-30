@@ -1,7 +1,0 @@
-services:
-  helpdesk:
-    build: .
-    container_name: 0xbuglabs-helpdesk-ticket-access
-    ports:
-      - "8080:8080"
-    restart: unless-stopped

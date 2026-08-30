@@ -1,0 +1,7 @@
+services:
+  vega:
+    build: .
+    container_name: hxbuglabs-vega-exposed-artifacts
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

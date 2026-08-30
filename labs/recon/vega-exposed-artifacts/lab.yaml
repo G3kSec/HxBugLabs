@@ -1,0 +1,45 @@
+title: "Vega Freight — what the build pipeline left behind"
+slug: "vega-exposed-artifacts"
+category: "Recon / OSINT"
+difficulty: "Easy"
+tech: ["Node.js", "Express", "Source maps", "Virtual hosts"]
+port: 8080
+
+description: >-
+  Vega Freight runs a shipment-tracking portal. The scope you were handed
+  is a single hostname and nothing else — no test account, no API docs, no
+  Swagger. Everything you get from here on, you get from what their
+  deployment accidentally publishes. This is the first hour of a real
+  engagement: read what the build left behind, then use it.
+
+objectives:
+  - id: "recover-internal-export"
+    title: "Pull the shipment export you were never meant to reach"
+    description: >-
+      The portal's own JavaScript talks to an API the public UI never
+      exposes a button for. Find how the front end authenticates itself to
+      that API, then call it yourself.
+    flag: "HxBugLabs{s0urc3m4p_l34ks_th3_r34l_4p1}"
+    hints:
+      - "The bundle is minified, but a build tool rarely ships only the bundle. Look at the last line of the JS file."
+      - "A .map file carries `sourcesContent` — the original, unminified source. Read what the API client sets on every request."
+      - "The export route answers 404 to anyone who doesn't look like the dispatcher UI. 404 is not always 'not found'."
+
+  - id: "forgotten-vhost"
+    title: "Reach the host that DNS no longer points at"
+    description: >-
+      Not every application behind an IP has a name you can resolve. One
+      of Vega's older deployments is still being served by the same
+      process — it just isn't the default site any more.
+    flag: "HxBugLabs{vh0st_fuzz1ng_f1nds_d34d_d3pl0ym3nts}"
+    hints:
+      - "Two places name hostnames you cannot resolve: the CORS allow-list in the recovered source, and security.txt."
+      - "A web server picks which site to serve from the Host header, not from DNS. curl lets you send any Host you want."
+      - "Once you're on the old site, it has its own routes — and its own idea of who's allowed to see them."
+
+tags:
+  - "recon"
+  - "source-map-disclosure"
+  - "virtual-host-enumeration"
+  - "forgotten-asset"
+  - "information-disclosure"

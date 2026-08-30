@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Webmail — Atlas</title></head>
+<body>
+<div class="top"><b>ATLAS WEBMAIL</b><span class="muted" style="color:#9fb0bb">j.moreau@atlas.example</span><span class="spacer"></span><a href="/login">Atlas Payroll</a></div>
+<main>
+  <h1>Inbox</h1>
+  <% messages.forEach(function (m) { %>
+    <div class="panel">
+      <div class="muted"><%= m.from %> · <%= m.receivedAt %></div>
+      <strong><%= m.subject %></strong>
+      <p style="margin:.4rem 0 0"><%= m.body %></p>
+    </div>
+  <% }) %>
+</main>
+</body></html>

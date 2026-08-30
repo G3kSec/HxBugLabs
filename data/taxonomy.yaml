@@ -1,12 +1,13 @@
-# 0xBugLabs — closed taxonomy.
+# HxBugLabs — closed taxonomy.
 #
-# Same discipline as 0xBugLetter: these lists are the single source of
-# truth for scripts/validate.py and (later) the site's TypeScript types.
-# Closed on purpose — if every lab invents its own category, filtering on
-# the catalog site stops being useful.
+# Same discipline as HxBugLetter: these lists are the single source of
+# truth for scripts/validate.py and web/src/lib/types.ts. Closed on
+# purpose — if every lab invents its own category, filtering on the
+# catalog site stops being useful.
 #
 # Add a value only in a PR that also updates every place that reads this
-# file, once those exist.
+# file: scripts/validate.py (via new_lab.py's CATEGORY_DIRS map) and
+# web/src/lib/types.ts (CATEGORIES, kept byte-identical).
 
 categories:
   - "SQL / NoSQL Injection"

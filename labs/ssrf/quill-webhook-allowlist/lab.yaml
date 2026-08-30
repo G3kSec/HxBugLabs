@@ -1,0 +1,46 @@
+title: "Quill — the allow-list that read the wrong side of the @"
+slug: "quill-webhook-allowlist"
+category: "SSRF"
+difficulty: "Medium"
+tech: ["Node.js", "Express", "EJS", "Webhooks", "Cloud metadata"]
+port: 8083
+
+description: >-
+  Quill is a docs platform with outbound webhooks: point a URL at a space
+  and Quill posts to it whenever a page changes. Someone thought about
+  SSRF — there is an allow-list, it rejects internal hostnames, and the
+  delivery log proves it. It is still wrong, and the way it is wrong is
+  the way real allow-lists are usually wrong.
+
+objectives:
+  - id: "reach-instance-metadata"
+    title: "Make Quill fetch its own cloud credentials"
+    description: >-
+      The webhook delivery log shows you the response body, so this is not
+      a blind SSRF. Get the allow-list to accept a URL that resolves
+      somewhere it should never reach.
+    flag: "HxBugLabs{us3r1nf0_1s_b3f0r3_th3_4t_n0t_4ft3r}"
+    hints:
+      - "Read the validator and the fetch as two separate parsers. They disagree about which part of the authority is the host."
+      - "In `scheme://userinfo@host/path`, which side of the @ did the validator keep?"
+      - "Once you can pick the host, the target is the same one you would go for on a real cloud instance — the same paths, too."
+
+  - id: "pivot-with-stolen-role"
+    title: "Use the credentials against an internal service"
+    description: >-
+      Credentials on their own are a finding. Data is a severity. The
+      webhook feature has one more capability you can turn into a
+      request-forging primitive.
+    flag: "HxBugLabs{ssrf_1s_0nly_4s_g00d_4s_th3_p1v0t}"
+    hints:
+      - "Look at everything the webhook form lets you control, not just the URL."
+      - "The metadata response names the role and the services it can reach."
+      - "An internal service that trusts a bearer token does not care which process presents it."
+
+tags:
+  - "ssrf"
+  - "allow-list-bypass"
+  - "url-parsing-confusion"
+  - "cloud-metadata"
+  - "credential-theft"
+  - "lateral-movement"

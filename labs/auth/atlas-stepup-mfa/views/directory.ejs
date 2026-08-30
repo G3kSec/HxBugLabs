@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Directory — Atlas Payroll</title></head>
+<body>
+<div class="top"><b>ATLAS PAYROLL</b><a href="/dashboard">Dashboard</a><span class="spacer"></span><a href="/logout">Sign out</a></div>
+<main>
+  <h1>People directory</h1>
+  <div class="panel">
+    <table>
+      <tr><th>Name</th><th>Email</th><th>Title</th><th>Department</th></tr>
+      <% people.forEach(function (p) { %>
+        <tr><td><%= p.name %></td><td><%= p.email %></td><td><%= p.title %></td><td><%= p.department %></td></tr>
+      <% }) %>
+    </table>
+  </div>
+</main>
+</body></html>

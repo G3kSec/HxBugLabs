@@ -32,9 +32,13 @@ export const DIFFICULTIES = ["Easy", "Medium", "Hard"] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
 
 /**
- * One objective within a lab. Deliberately has no `flag` field — the
- * catalog site is a browsing surface, not a walkthrough, and a field this
- * loader never parses can never leak into a client bundle by accident.
+ * One objective within a lab.
+ *
+ * Deliberately has no `flag` field. The catalog ships a SHA-256 of the
+ * flag instead, so the browser can tell someone whether what they pasted
+ * is correct without the answer ever being in the bundle. A hash is not a
+ * secret — anyone determined can brute-force a known-format string — but
+ * it keeps the flag out of view-source, which is the point.
  */
 export interface LabObjective {
   id: string;
@@ -42,6 +46,8 @@ export interface LabObjective {
   description: string;
   /** Progressive nudges, shown behind a collapsed section on the site. */
   hints: string[];
+  /** Lowercase hex SHA-256 of the objective's flag. */
+  flagHash: string;
 }
 
 /** A single lab, sourced from one `labs/<category>/<slug>/lab.yaml`. */

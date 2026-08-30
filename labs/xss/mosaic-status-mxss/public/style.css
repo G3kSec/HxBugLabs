@@ -1,0 +1,26 @@
+:root { --line:#e4e7eb; --muted:#66707c; --ink:#12181f; --accent:#0b6b5e; --warn:#b7791f; }
+* { box-sizing:border-box; }
+body { font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; margin:0; color:var(--ink); background:#fafbfc; }
+a { color:var(--accent); }
+.top { background:#fff; border-bottom:1px solid var(--line); padding:.9rem 1.5rem; display:flex; gap:1.1rem; align-items:center; }
+.top b { letter-spacing:-.01em; }
+.top a { text-decoration:none; font-size:.9rem; }
+.top .spacer { margin-left:auto; }
+main { max-width:48rem; margin:2rem auto; padding:0 1.5rem; }
+h1 { font-size:1.35rem; margin:0 0 .3rem; }
+h2 { font-size:1rem; margin:1.8rem 0 .6rem; }
+.panel { background:#fff; border:1px solid var(--line); border-radius:6px; padding:1rem 1.2rem; margin-bottom:.9rem; }
+.muted { color:var(--muted); font-size:.87rem; }
+.state { font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; padding:.15rem .5rem; border-radius:999px; }
+.monitoring { background:#fdf4e3; color:var(--warn); }
+.resolved { background:#e9f6ee; color:#1e7135; }
+textarea { width:100%; min-height:7rem; font:14px/1.5 ui-monospace,Menlo,monospace; padding:.6rem .7rem; border:1px solid #c8cfd7; border-radius:4px; }
+input { font:inherit; width:100%; padding:.55rem .7rem; border:1px solid #c8cfd7; border-radius:4px; }
+button { font:inherit; padding:.5rem 1rem; border:0; border-radius:4px; background:var(--accent); color:#fff; cursor:pointer; }
+button.ghost { background:#fff; color:var(--muted); border:1px solid #c8cfd7; font-size:.85rem; padding:.3rem .7rem; }
+.ok { background:#e9f6ee; border:1px solid #c6e5d1; color:#1e7135; padding:.5rem .7rem; border-radius:4px; margin-bottom:.9rem; font-size:.9rem; }
+.err { background:#fdf0ee; border:1px solid #f2ccc3; color:#9c2a10; padding:.5rem .7rem; border-radius:4px; margin-bottom:.9rem; font-size:.9rem; }
+.comment { border-top:1px solid var(--line); padding:.8rem 0; }
+.comment:first-child { border-top:0; }
+code { background:#eef1f4; padding:.1rem .3rem; border-radius:3px; font-size:.85em; }
+footer { color:var(--muted); font-size:.8rem; text-align:center; margin:3rem 0 2rem; }

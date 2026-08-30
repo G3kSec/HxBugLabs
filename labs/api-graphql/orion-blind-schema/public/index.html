@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orion Treasury</title>
+<style>
+  :root { color-scheme: light dark; --line:#d9dee5; --muted:#647085; }
+  body { font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; margin:0; background:#f6f8fa; color:#101a26; }
+  .top { background:#0b1b2b; color:#dce7f2; padding:.9rem 1.5rem; display:flex; gap:1rem; align-items:baseline; }
+  .top b { letter-spacing:.08em; font-size:.9rem; }
+  .top span { color:#7e97b0; font-size:.82rem; }
+  main { max-width:44rem; margin:2.5rem auto; padding:0 1.5rem; }
+  h1 { font-size:1.4rem; margin:0 0 .4rem; }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:6px; padding:1.1rem 1.3rem; margin-bottom:1rem; }
+  .muted { color:var(--muted); font-size:.88rem; }
+  input { font:inherit; width:100%; padding:.55rem .7rem; border:1px solid #c3ccd8; border-radius:4px; }
+  button { font:inherit; padding:.55rem 1.1rem; border:0; border-radius:4px; background:#12507f; color:#fff; cursor:pointer; }
+  pre { background:#0b1b2b; color:#cfe2f2; padding:.9rem; border-radius:5px; overflow:auto; font:12px/1.5 ui-monospace,Menlo,monospace; }
+  code { background:#eef2f6; padding:.1rem .3rem; border-radius:3px; font-size:.85em; }
+</style>
+</head>
+<body>
+<div class="top"><b>ORION TREASURY</b><span>corporate banking console</span></div>
+<main>
+  <h1>Console</h1>
+  <p class="muted">Everything this console does runs through one endpoint:
+    <code>POST /graphql</code>. Sign in first with <code>POST /session</code>.</p>
+
+  <div class="panel">
+    <h3 style="margin-top:0">Sign in</h3>
+    <p><input id="login" placeholder="treasury@…" autocomplete="username"></p>
+    <p><input id="password" type="password" placeholder="password" autocomplete="current-password"></p>
+    <button id="signin">Sign in</button>
+    <span class="muted" id="who"></span>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:0">Your accounts</h3>
+    <button id="load">Load</button>
+    <pre id="out">{ }</pre>
+  </div>
+
+  <p class="muted">The console only ever sends the two operations above.
+    The endpoint answers whatever the schema allows.</p>
+</main>
+
+<script>
+  async function gql(query, variables) {
+    const res = await fetch("/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: query, variables: variables || {} }),
+    });
+    return res.json();
+  }
+
+  document.getElementById("signin").addEventListener("click", async function () {
+    const res = await fetch("/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        login: document.getElementById("login").value,
+        password: document.getElementById("password").value,
+      }),
+    });
+    const body = await res.json();
+    document.getElementById("who").textContent = body.error ? body.error : " signed in as " + body.customer.name;
+  });
+
+  document.getElementById("load").addEventListener("click", async function () {
+    const data = await gql("{ viewer { id name tier accounts { id label currency balance } } }");
+    document.getElementById("out").textContent = JSON.stringify(data, null, 2);
+  });
+</script>
+</body>
+</html>

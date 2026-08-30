@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Dashboard — Atlas Payroll</title></head>
+<body>
+<div class="top">
+  <b>ATLAS PAYROLL</b>
+  <a href="/directory">Directory</a>
+  <a href="/mailbox">Webmail</a>
+  <% if (user.role === "admin") { %><a href="/admin/payroll-runs">Payroll runs</a><% } %>
+  <span class="spacer"></span><span class="muted" style="color:#9fb0bb"><%= user.name %></span>
+  <a href="/logout">Sign out</a>
+</div>
+<main>
+  <h1>Hello, <%= user.name.split(" ")[0] %></h1>
+  <div class="panel">
+    <p class="muted">Signed in as <strong><%= user.title %></strong>, <%= user.department %> ·
+      employee <code><%= user.employeeNumber %></code></p>
+  </div>
+  <div class="panel">
+    <h3 style="margin-top:0">Open with you</h3>
+    <table>
+      <tr><th>Item</th><th>Period</th><th>State</th></tr>
+      <tr><td>Adjustment queue</td><td>2026-02</td><td>3 pending</td></tr>
+      <tr><td>Benefits reconciliation</td><td>2026-01</td><td>complete</td></tr>
+    </table>
+  </div>
+</main>
+</body></html>

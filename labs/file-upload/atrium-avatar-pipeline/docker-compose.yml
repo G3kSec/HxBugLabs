@@ -1,0 +1,7 @@
+services:
+  atrium:
+    build: .
+    container_name: hxbuglabs-atrium-avatar-pipeline
+    ports:
+      - "8091:8091"
+    restart: unless-stopped

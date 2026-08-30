@@ -1,0 +1,15 @@
+{
+ "version": 3,
+ "file": "app.7c3f19.js",
+ "sourceRoot": "",
+ "sources": [
+  "src/api/client.js",
+  "src/main.js"
+ ],
+ "sourcesContent": [
+  "/**\n * Shared API client for the tracking portal AND the dispatcher console.\n * Both bundles import from here, which is why the dispatcher-only bits\n * live in this file even though the public build never calls them.\n */\n\nexport const API_BASE = \"/api/v2\";\n\n/* Hosts allowed to talk to the API. Keep in sync with the CORS config in\n * infra/nginx/cors.conf \u2014 legacy.vega-freight.local still needs an entry\n * until the old dispatch portal is finally switched off. */\nexport const ALLOWED_ORIGINS = [\n  \"https://vega-freight.local\",\n  \"https://api.vega-freight.local\",\n  \"https://legacy.vega-freight.local\",\n];\n\n/**\n * The API answers 404 rather than 401 on the internal routes, so scanners\n * and crawlers see nothing interesting. The console identifies itself\n * with a static role header instead of a per-user token \u2014 this predates\n * SSO and is on the 2024 backlog to replace.\n */\nconst DISPATCHER_HEADERS = {\n  Accept: \"application/json\",\n  \"X-Vega-Role\": \"dispatcher\",\n};\n\nexport async function trackShipment(ref) {\n  const res = await fetch(`${API_BASE}/track/${encodeURIComponent(ref)}`, {\n    headers: { Accept: \"application/json\" },\n  });\n  if (!res.ok) throw new Error(\"not found\");\n  return res.json();\n}\n\n/** Dispatcher console only. Returns the full manifest as CSV. */\nexport async function exportShipments() {\n  const res = await fetch(`${API_BASE}/shipments/export`, {\n    headers: DISPATCHER_HEADERS,\n  });\n  if (!res.ok) throw new Error(\"export failed\");\n  return res.text();\n}\n",
+  "import { trackShipment } from \"./api/client\";\n\nconst form = document.getElementById(\"f\");\nconst input = document.getElementById(\"ref\");\nconst out = document.getElementById(\"out\");\n\nform?.addEventListener(\"submit\", async (event) => {\n  event.preventDefault();\n  out.textContent = \"Looking up\\u2026\";\n\n  try {\n    const shipment = await trackShipment(input.value.trim());\n    out.textContent = `${shipment.ref}\\n${shipment.origin} \\u2192 ${shipment.dest}\\nStatus: ${shipment.status}`;\n  } catch {\n    out.textContent = \"No shipment found for that reference.\";\n  }\n});\n"
+ ],
+ "names": [],
+ "mappings": ""
+}

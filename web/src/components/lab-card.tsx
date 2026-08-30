@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DIFFICULTY_STYLES } from "@/lib/format";
 import type { Lab } from "@/lib/types";
 
+import { LabProgress } from "./lab-progress";
 import { Chip, DifficultyBadge } from "./ui";
 
 /**
@@ -38,6 +39,9 @@ export function LabCard({ lab }: { lab: Lab }) {
           <span>{lab.objectives.length} objective{lab.objectives.length === 1 ? "" : "s"}</span>
           <span aria-hidden="true">·</span>
           <span className="truncate">{lab.tech.join(", ")}</span>
+          <span className="relative z-10 ml-auto">
+            <LabProgress slug={lab.slug} total={lab.objectives.length} />
+          </span>
         </div>
       </div>
     </article>

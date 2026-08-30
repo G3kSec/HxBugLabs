@@ -1,7 +1,7 @@
 """
 Validates every labs/**/lab.yaml against data/taxonomy.yaml.
 
-Mirrors the discipline from 0xBugLetter's validator: one script, no
+Mirrors the discipline from HxBugLetter's validator: one script, no
 dependencies beyond pyyaml, fails loudly with the exact file and field
 that's wrong.
 
@@ -22,7 +22,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 LABS_DIR = REPO_ROOT / "labs"
 TAXONOMY_FILE = REPO_ROOT / "data" / "taxonomy.yaml"
 
-FLAG_RE = re.compile(r"^0xBugLabs\{.+\}$")
+FLAG_RE = re.compile(r"^HxBugLabs\{.+\}$")
 SLUG_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 errors: list[str] = []
@@ -125,7 +125,7 @@ def validate_lab(path: Path, taxonomy: dict, seen_flags: dict[str, str], seen_po
         flag = check_str(obj_where, obj, "flag")
         if flag:
             if not FLAG_RE.match(flag):
-                error(obj_where, f'"flag" has to match 0xBugLabs{{...}} (got "{flag}")')
+                error(obj_where, f'"flag" has to match HxBugLabs{{...}} (got "{flag}")')
             elif flag in seen_flags:
                 error(obj_where, f'flag is a duplicate of the one in {seen_flags[flag]} — flags must be unique repo-wide')
             else:

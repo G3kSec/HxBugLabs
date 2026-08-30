@@ -42,7 +42,7 @@ CATEGORY_DIRS = {
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Scaffold a new 0xBugLabs lab")
+    parser = argparse.ArgumentParser(description="Scaffold a new HxBugLabs lab")
     parser.add_argument("category_dir", choices=sorted(CATEGORY_DIRS.values()), help="category folder, e.g. idor")
     parser.add_argument("slug", help="lab folder name, lowercase-with-hyphens")
     parser.add_argument("--title", default=None, help="human-readable title (defaults to slug)")
@@ -75,7 +75,7 @@ objectives:
     title: "TODO"
     description: >-
       TODO
-    flag: "0xBugLabs{{TODO}}"
+    flag: "HxBugLabs{{TODO}}"
     hints:
       - "TODO — a nudge in the right direction, not the answer"
       - "TODO — a second, more specific nudge"
@@ -90,7 +90,7 @@ tags:
         f"""services:
   {args.slug}:
     build: .
-    container_name: 0xbuglabs-{args.slug}
+    container_name: hxbuglabs-{args.slug}
     ports:
       - "{args.port}:{args.port}"
     restart: unless-stopped

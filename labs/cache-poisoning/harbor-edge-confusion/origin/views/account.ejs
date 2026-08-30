@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Account — Harbor</title></head>
+<body>
+<div class="top"><b>Harbor</b><a href="/">Portal</a><span class="spacer"></span><a href="/logout">Sign out</a></div>
+<main>
+  <h1><%= section === "billing" ? "Billing" : "Profile" %></h1>
+  <div class="panel">
+    <table>
+      <tr><th>Name</th><td><%= user.name %></td></tr>
+      <tr><th>Email</th><td><%= user.email %></td></tr>
+      <tr><th>Role</th><td><%= user.role %></td></tr>
+      <tr><th>Plan</th><td><%= user.plan %></td></tr>
+      <tr><th>API token</th><td><code><%= user.apiToken %></code></td></tr>
+    </table>
+  </div>
+  <p class="muted">This page is also available as
+    <a href="/account/<%= section %>.json">JSON</a> and
+    <a href="/account/<%= section %>.csv">CSV</a>.</p>
+</main>
+<script src="<%= assetOrigin %>/portal.js"></script>
+</body></html>

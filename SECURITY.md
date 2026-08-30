@@ -26,6 +26,12 @@ point — treat every container here as hostile.
   `internal: true` network that only the exposed service can reach — that's
   the case the flag is actually for: a service that must stay unreachable
   from the host on purpose, not "block outbound internet."
+- **Two labs give you command execution inside their container, by
+  design.** `prototype-pollution/kestrel-report-merge` and
+  `ssti/lantern-campaign-preview` both end in running a command as the
+  application user. That is the objective, not an accident — but it means
+  a container escape is the only thing between that shell and your host,
+  so treat those two the way you would treat running untrusted code.
 - **Tear down when done.** `docker compose down -v` after each session
   rather than leaving vulnerable containers running indefinitely.
 
@@ -37,7 +43,7 @@ catalog site itself (deployed at
 [buglabs.hxhunt.com](https://buglabs.hxhunt.com/)) or in the repo
 tooling (`scripts/validate.py`, `scripts/new_lab.py`, CI workflows).
 
-Open a [private security advisory](https://github.com/G3kSec/0xBugLabs/security/advisories/new)
+Open a [private security advisory](https://github.com/G3kSec/HxBugLabs/security/advisories/new)
 rather than a public issue. Expect a first response within a few days.
 
 The catalog site itself is a static Next.js build with no backend, no

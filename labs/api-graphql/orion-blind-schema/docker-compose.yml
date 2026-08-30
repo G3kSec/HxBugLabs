@@ -1,0 +1,7 @@
+services:
+  orion:
+    build: .
+    container_name: hxbuglabs-orion-blind-schema
+    ports:
+      - "8086:8086"
+    restart: unless-stopped

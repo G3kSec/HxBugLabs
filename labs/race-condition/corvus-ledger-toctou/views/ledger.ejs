@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Ledger — Corvus Freightpay</title></head>
+<body>
+<div class="top"><b>CORVUS FREIGHTPAY</b><span class="spacer"></span><a href="/logout">Sign out</a></div>
+<main>
+  <div class="panel">
+    <div class="muted">Available credit</div>
+    <div class="balance" id="balance"><%= account.credits %></div>
+    <div class="muted">Credits are drawn down when you book a lane and returned when you cancel one.</div>
+  </div>
+
+  <h2>Book a lane</h2>
+  <div class="panel">
+    <table>
+      <tr><th>Lane</th><th>Route</th><th>Type</th><th>Credits</th><th></th></tr>
+      <% lanes.forEach(function (l) { %>
+        <tr>
+          <td><code><%= l.code %></code></td>
+          <td><%= l.from %> &rarr; <%= l.to %></td>
+          <td class="muted"><%= l.kind %></td>
+          <td><%= l.credits %></td>
+          <td style="text-align:right"><button class="ghost book" data-lane="<%= l.code %>">Book</button></td>
+        </tr>
+      <% }) %>
+    </table>
+    <p class="muted" id="bookmsg" style="margin-bottom:0"></p>
+  </div>
+
+  <h2>Your bookings</h2>
+  <div class="panel">
+    <table id="bookings">
+      <tr><th>Reference</th><th>Lane</th><th>Credits</th><th>State</th><th></th></tr>
+    </table>
+    <p class="muted" style="margin-bottom:0">
+      API: <code>GET /api/account</code> · <code>POST /api/bookings</code> ·
+      <code>POST /api/bookings/:id/cancel</code> · <code>POST /api/bookings/:id/dispatch</code> ·
+      <code>GET /api/audit</code> · <code>GET /api/reconciliation</code> · <code>GET /api/charter</code>
+    </p>
+  </div>
+</main>
+
+<script>
+  async function refresh() {
+    const res = await fetch("/api/account", { headers: { Accept: "application/json" } });
+    const data = await res.json();
+    document.getElementById("balance").textContent = data.credits;
+
+    const table = document.getElementById("bookings");
+    table.innerHTML = "<tr><th>Reference</th><th>Lane</th><th>Credits</th><th>State</th><th></th></tr>";
+    data.bookings.forEach(function (b) {
+      const row = document.createElement("tr");
+      row.innerHTML =
+        "<td><code>" + b.id + "</code></td><td>" + b.lane + "</td><td>" + b.credits + "</td>" +
+        '<td><span class="state ' + b.state + '">' + b.state + "</span></td>" +
+        '<td style="text-align:right">' +
+        (b.state === "booked"
+          ? '<button class="ghost cancel" data-id="' + b.id + '">Cancel</button> ' +
+            '<button class="ghost dispatch" data-id="' + b.id + '">Dispatch</button>'
+          : "") +
+        "</td>";
+      table.appendChild(row);
+    });
+  }
+
+  document.addEventListener("click", async function (event) {
+    const el = event.target;
+    if (el.classList.contains("book")) {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lane: el.dataset.lane }),
+      });
+      const body = await res.json();
+      document.getElementById("bookmsg").textContent = body.error ? body.error : "Booked " + body.id;
+      await refresh();
+    }
+    if (el.classList.contains("cancel")) {
+      await fetch("/api/bookings/" + el.dataset.id + "/cancel", { method: "POST" });
+      await refresh();
+    }
+    if (el.classList.contains("dispatch")) {
+      await fetch("/api/bookings/" + el.dataset.id + "/dispatch", { method: "POST" });
+      await refresh();
+    }
+  });
+
+  refresh();
+</script>
+</body></html>

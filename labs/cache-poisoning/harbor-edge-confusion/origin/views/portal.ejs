@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Harbor Portal</title></head>
+<body>
+<div class="top">
+  <b>Harbor</b>
+  <span class="spacer"></span>
+  <% if (user) { %><a href="/account/profile">Account</a> <a href="/logout">Sign out</a>
+  <% } else { %><a href="/login">Sign in</a><% } %>
+</div>
+<main>
+  <h1>Harbor Portal</h1>
+  <p class="muted">Managed infrastructure for teams. Sign in to see your account,
+    billing and API credentials.</p>
+
+  <div class="panel">
+    <h3 style="margin-top:0">Having trouble with a page?</h3>
+    <p class="muted">Paste the portal path you are stuck on and the service desk
+      will open it on their side to see what you see.</p>
+    <form id="queue">
+      <p><input name="url" id="url" placeholder="/account/profile"></p>
+      <button type="submit">Send to the service desk</button>
+      <span class="muted" id="queued"></span>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:0">Status</h3>
+    <p class="muted">Edge cache state: <code>/_cache/status</code> ·
+      Integrity monitor: <code>/api/incidents</code></p>
+  </div>
+</main>
+<footer>&copy; <span id="year"></span> Harbor · portal.harbor.example</footer>
+<script src="<%= assetOrigin %>/portal.js"></script>
+<script>
+  document.getElementById("queue").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const res = await fetch("/support/queue", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: document.getElementById("url").value }),
+    });
+    const body = await res.json();
+    document.getElementById("queued").textContent = body.error || " queued: " + body.url;
+  });
+</script>
+</body></html>

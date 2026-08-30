@@ -1,0 +1,46 @@
+title: "Harbor — an edge that keys on less than it serves"
+slug: "harbor-edge-confusion"
+category: "Cache Poisoning"
+difficulty: "Hard"
+tech: ["Node.js", "Express", "Reverse proxy", "HTTP cache"]
+port: 8087
+
+description: >-
+  Harbor runs a customer portal behind its own caching edge. The edge is
+  conservative on paper: it caches static assets and two public pages,
+  and it refuses to store a public page for anyone carrying a session
+  cookie. The origin behind it is an ordinary application that supports
+  format suffixes on its routes. Neither component is doing anything
+  unusual. They simply do not agree on what a URL means, and the cache
+  key does not contain everything the response depends on.
+
+objectives:
+  - id: "deceive-the-cache"
+    title: "Read a support agent's account page without their session"
+    description: >-
+      Get the edge to store a response it should never have stored, then
+      collect it as an unauthenticated visitor.
+    flag: "HxBugLabs{th3_3dg3_c4ch3d_wh4t_th3_0r1g1n_p3rs0n4l1z3d}"
+    hints:
+      - "Ask the edge for a page that ends in a static extension and watch which requests it decides to store. Then ask the origin the same thing."
+      - "The origin treats a trailing .something as a format suffix, and falls back to HTML when it does not recognise the format."
+      - "You need someone else's session to fill the entry. There is a support queue that will visit a URL for you."
+
+  - id: "poison-the-portal"
+    title: "Change what every visitor's browser loads"
+    description: >-
+      The portal builds absolute URLs from a request header so that
+      white-label domains work. That header is not part of the cache key.
+    flag: "HxBugLabs{unk3y3d_h34d3r_1n_4_sh4r3d_r3sp0ns3}"
+    hints:
+      - "Compare the HTML the origin returns for two requests that differ only in a forwarding header."
+      - "The edge stores one entry per method and URL. Nothing else."
+      - "Harbor's integrity monitor fetches the portal like an ordinary visitor. Make it load something it should not, then read what it logged."
+
+tags:
+  - "web-cache-deception"
+  - "cache-poisoning"
+  - "unkeyed-input"
+  - "path-confusion"
+  - "x-forwarded-host"
+  - "parser-differential"

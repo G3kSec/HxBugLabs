@@ -1,0 +1,47 @@
+title: "Kestrel Reports — one merge, two escalations"
+slug: "kestrel-report-merge"
+category: "Prototype Pollution"
+difficulty: "Hard"
+tech: ["Node.js", "Express", "REST", "child_process"]
+port: 8088
+
+description: >-
+  Kestrel is a reporting workspace. It stores your display preferences as
+  a nested object and updates them with a recursive merge — the kind
+  every codebase writes once and reuses everywhere. Nothing else in the
+  application looks unusual: the permission check is a normal grants
+  lookup, and the report renderer shells out to a binary with an argument
+  list built from the report's own options. Both of those read a property
+  that, on your objects, does not exist.
+
+objectives:
+  - id: "grant-yourself-exports"
+    title: "Reach an endpoint your role has no grant for"
+    description: >-
+      The export endpoint asks an authorization helper whether your
+      request context carries a permission. Make the answer yes without
+      changing your role.
+    flag: "HxBugLabs{4_m1ss1ng_pr0p3rty_1s_4n_4tt4ck_surf4c3}"
+    hints:
+      - "Look at what the preferences endpoint does with nested objects, then at what it does with a key called __proto__."
+      - "Read the permission helper. It falls back through two properties that your request context never defines."
+      - "Poll a read endpoint after each attempt — a successful pollution is silent until something else reads the property."
+
+  - id: "render-arbitrary-command"
+    title: "Run a command inside the container"
+    description: >-
+      The renderer builds an argument vector from options that fall back
+      to workspace defaults. You now control what a missing property
+      returns.
+    flag: "HxBugLabs{0pt10ns_0r_d3f4ult_1s_4_g4dg3t_ch41n}"
+    hints:
+      - "Find every `options.x || default` on the render path. Each one is a value you can supply."
+      - "The engine name and the argument array both come from that pattern."
+      - "The render log returns the process output, so this is not blind. The licence file is on disk."
+
+tags:
+  - "prototype-pollution"
+  - "authorization-bypass"
+  - "rce"
+  - "gadget-chain"
+  - "deep-merge"

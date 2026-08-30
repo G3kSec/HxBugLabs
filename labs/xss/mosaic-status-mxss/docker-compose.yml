@@ -1,0 +1,7 @@
+services:
+  mosaic:
+    build: .
+    container_name: hxbuglabs-mosaic-status-mxss
+    ports:
+      - "8085:8085"
+    restart: unless-stopped

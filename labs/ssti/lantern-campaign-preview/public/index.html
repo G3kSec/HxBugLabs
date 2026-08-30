@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lantern</title>
+<style>
+  body { font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; margin:0; background:#fbfaf7; color:#20211f; }
+  .top { background:#f2b705; padding:.9rem 1.5rem; font-weight:700; letter-spacing:.05em; font-size:.9rem; }
+  main { max-width:46rem; margin:2.5rem auto; padding:0 1.5rem; }
+  h1 { font-size:1.4rem; margin:0 0 .4rem; }
+  h2 { font-size:1rem; margin:2rem 0 .6rem; }
+  .panel { background:#fff; border:1px solid #e7e3d9; border-radius:5px; padding:1rem 1.2rem; margin-bottom:.9rem; }
+  .muted { color:#6d6a60; font-size:.88rem; }
+  pre { background:#20211f; color:#e6e2d8; padding:.85rem; border-radius:4px; overflow:auto; font:12px/1.5 ui-monospace,Menlo,monospace; }
+  code { background:#f1eee6; padding:.1rem .3rem; border-radius:3px; font-size:.85em; }
+</style>
+</head>
+<body>
+<div class="top">LANTERN</div>
+<main>
+  <h1>Campaign editor</h1>
+  <p class="muted">Lantern's editor is a desktop app; this build only ships the API.</p>
+
+  <h2>Merge tags</h2>
+  <div class="panel">
+    <p class="muted">Campaign bodies are templates. Anything in double braces is
+      replaced when the mail is built:</p>
+    <pre>{{ recipient.firstName }}   {{ recipient.lastName }}
+{{ recipient.company }}     {{ recipient.email }}
+{{ campaign.subject }}      {{ workspace.name }}</pre>
+    <p class="muted">Preview renders your draft against a sample recipient before
+      you schedule a send.</p>
+  </div>
+
+  <h2>API</h2>
+  <div class="panel">
+    <pre>POST /api/session                    {"email": "...", "password": "..."}
+GET  /api/campaigns
+PUT  /api/campaigns/:id              {"body": "...", "subject": "..."}
+POST /api/campaigns/:id/preview      {"body": "..."} renders a draft without saving</pre>
+  </div>
+</main>
+</body>
+</html>

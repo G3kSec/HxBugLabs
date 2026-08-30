@@ -1,0 +1,47 @@
+title: "Mosaic Status — the sanitizer that rebuilt what it cleaned"
+slug: "mosaic-status-mxss"
+category: "XSS"
+difficulty: "Hard"
+tech: ["Node.js", "Express", "EJS", "CSP", "Headless Chromium"]
+port: 8085
+
+description: >-
+  Mosaic runs the public status page for a payments company. Customers
+  comment on incidents with light formatting, so there is a sanitizer —
+  written in-house, allow-list based, and it does reject every tag and
+  attribute you would expect it to reject. There is also a content
+  security policy with no `unsafe-inline`. Both controls are real. Neither
+  one is looking at the place where the payload actually gets built.
+
+objectives:
+  - id: "escape-the-sanitizer"
+    title: "Run your own JavaScript on the incident page"
+    description: >-
+      Get arbitrary script execution in your own browser, on a page you
+      posted a comment to. The CSP means an event handler is not enough —
+      whatever runs has to come from an origin the policy trusts.
+    flag: "HxBugLabs{r3s3r14l1z1ng_1s_wh3r3_s4n1t1z3rs_d13}"
+    hints:
+      - "Post something harmless with formatting, then compare exactly what you typed against the HTML the page serves back."
+      - "The sanitizer decodes entities so it can inspect attribute values. Look at what it does with the decoded value afterwards."
+      - "Once you control raw HTML, read the CSP and go looking for a same-origin endpoint that will echo whatever you ask it to into a JavaScript response."
+
+  - id: "reach-the-oncall"
+    title: "Make the on-call engineer's browser hand you something it holds"
+    description: >-
+      Reporting a comment sends a real engineer to look at it. Their
+      session cookie is HttpOnly, which does not matter as much as people
+      think.
+    flag: "HxBugLabs{y0u_d0nt_n33d_th3_c00k13_y0u_h4v3_th3_br0ws3r}"
+    hints:
+      - "You cannot read their cookie. You can make their browser use it."
+      - "Find what the admin side exposes that your account cannot reach, then fetch it from inside their session and send the response somewhere you can read."
+      - "The collector at /api/collect keeps whatever is posted to it, and your own account can read the log."
+
+tags:
+  - "xss"
+  - "mutation-xss"
+  - "sanitizer-bypass"
+  - "csp-bypass"
+  - "jsonp"
+  - "session-riding"

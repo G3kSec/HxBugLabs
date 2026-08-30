@@ -1,0 +1,7 @@
+services:
+  clearline:
+    build: .
+    container_name: hxbuglabs-clearline-tenant-boundary
+    ports:
+      - "8081:8081"
+    restart: unless-stopped

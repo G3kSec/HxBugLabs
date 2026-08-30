@@ -1,0 +1,45 @@
+title: "Atrium — an avatar pipeline that trusts the file name"
+slug: "atrium-avatar-pipeline"
+category: "File Upload"
+difficulty: "Easy"
+tech: ["Node.js", "Express", "multer", "Static hosting"]
+port: 8091
+
+description: >-
+  Atrium is a staff directory. Everyone uploads a profile picture, and the
+  upload endpoint does check the file — extension against an allow-list,
+  size against a cap, and it rejects the executable extensions you would
+  expect it to reject. It even strips the uploaded file name down to a
+  leaf. Then it serves the whole directory back over the same origin as
+  the app, and lets the client choose which folder to file into.
+
+objectives:
+  - id: "upload-active-content"
+    title: "Get the server to host something that runs in a visitor's browser"
+    description: >-
+      The allow-list is a list of image formats. Not every image format is
+      inert, and the server hands each file back with a content type
+      derived from its name.
+    flag: "HxBugLabs{n0t_3v3ry_1m4g3_f0rm4t_1s_1n3rt}"
+    hints:
+      - "Read the allowed extensions. One of them is a markup language, not a bitmap."
+      - "Fetch your own uploaded file directly and look at the Content-Type header that comes back."
+      - "Open it as a top-level page rather than inside an <img> tag."
+
+  - id: "escape-the-upload-directory"
+    title: "Write a file somewhere the upload directory is not"
+    description: >-
+      The file name itself is stripped to a leaf before it is used. The
+      directory the file lands in is not.
+    flag: "HxBugLabs{4_f1l3n4m3_1s_4_p4th_unt1l_y0u_str1p_1t}"
+    hints:
+      - "The upload response tells you where the file was stored. Look for a request parameter that changes it."
+      - "Avatars are filed per team, and the client says which team. That value is joined onto a path without being normalised."
+      - "The audit endpoint reports anything that ended up outside the upload directory."
+
+tags:
+  - "file-upload"
+  - "svg-xss"
+  - "content-type"
+  - "path-traversal"
+  - "unrestricted-upload"

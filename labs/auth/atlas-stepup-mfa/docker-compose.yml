@@ -1,0 +1,7 @@
+services:
+  atlas:
+    build: .
+    container_name: hxbuglabs-atlas-stepup-mfa
+    ports:
+      - "8082:8082"
+    restart: unless-stopped

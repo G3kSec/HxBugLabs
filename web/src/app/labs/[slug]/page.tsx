@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { FlagForm } from "@/components/flag-form";
+import { LabProgress } from "@/components/lab-progress";
 import { Chip, DifficultyBadge } from "@/components/ui";
 import { getLabBySlug, getLabs } from "@/lib/content";
 
@@ -91,9 +93,13 @@ docker compose up -d`}</code>
 
       {/* ── Objectives ──────────────────────────────────────────────── */}
       <section className="mb-8">
-        <p className="label mb-3">
-          Objectives ({lab.objectives.length})
-        </p>
+        <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <p className="label">Objectives ({lab.objectives.length})</p>
+          <LabProgress slug={lab.slug} total={lab.objectives.length} />
+          <p className="ml-auto font-mono text-2xs text-ink-3">
+            paste a flag to mark it captured — saved in this browser only
+          </p>
+        </div>
         <ol className="flex flex-col gap-3">
           {lab.objectives.map((objective, index) => (
             <li
@@ -128,6 +134,8 @@ docker compose up -d`}</code>
                       </ol>
                     </details>
                   ) : null}
+
+                  <FlagForm labSlug={lab.slug} objective={objective} />
                 </div>
               </div>
             </li>

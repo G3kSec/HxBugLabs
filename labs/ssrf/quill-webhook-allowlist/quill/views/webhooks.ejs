@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Webhooks — Quill</title></head>
+<body>
+<div class="top">
+  <b>Quill</b><a href="/spaces">Pages</a><a href="/settings/webhooks">Webhooks</a>
+  <span class="spacer"></span><span class="muted"><%= user.name %></span><a href="/logout">Sign out</a>
+</div>
+<main>
+  <h1>Outbound webhooks</h1>
+  <p class="muted">Quill POSTs a JSON payload to your endpoint whenever a page in this space changes.</p>
+
+  <% if (error) { %><div class="err"><%= error %></div><% } %>
+  <% if (notice) { %><div class="ok"><%= notice %></div><% } %>
+
+  <div class="panel">
+    <form method="post" action="/settings/webhooks">
+      <p><label>Destination URL</label>
+        <input type="text" name="url" placeholder="https://hooks.quill.io/t/…" required></p>
+      <div class="row">
+        <div style="flex:0 0 8rem"><label>Method</label>
+          <select name="method" style="font:14px ui-monospace,Menlo,monospace;width:100%;padding:.55rem .7rem;border:1px solid #d5cec5;border-radius:3px;background:#fdfcfa">
+            <option>POST</option><option>GET</option>
+          </select></div>
+        <div><label>Custom header (optional)</label><input type="text" name="headerName" placeholder="Authorization"></div>
+        <div><label>Header value</label><input type="text" name="headerValue" placeholder="Bearer …"></div>
+      </div>
+      <p class="muted" style="margin:.6rem 0">
+        Allowed destinations: <% allowed.forEach(function (d, i) { %><code><%= d %></code><%= i < allowed.length - 1 ? ", " : "" %><% }) %>
+        and their subdomains.
+      </p>
+      <button type="submit">Save and send a test delivery</button>
+    </form>
+  </div>
+
+  <% if (webhooks.length) { %>
+    <h1 style="font-size:1.1rem">Registered</h1>
+    <% webhooks.forEach(function (h) { %>
+      <div class="panel">
+        <code><%= h.method %> <%= h.url %></code>
+        <div class="muted">on <%= h.event %> · created <%= h.createdAt %></div>
+        <form method="post" action="/settings/webhooks/<%= h.id %>/test" style="margin-top:.6rem">
+          <button type="submit">Send test delivery</button>
+        </form>
+      </div>
+    <% }) %>
+  <% } %>
+
+  <% if (deliveries.length) { %>
+    <h1 style="font-size:1.1rem">Delivery log</h1>
+    <p class="muted">The full response from your endpoint, so you can debug it without leaving Quill.</p>
+    <% deliveries.forEach(function (d) { %>
+      <div class="panel">
+        <div class="muted"><%= d.at %> · hook #<%= d.hookId %> · HTTP <%= d.status || "—" %>
+          <% if (d.contentType) { %>· <%= d.contentType %><% } %></div>
+        <pre><%= d.body %></pre>
+      </div>
+    <% }) %>
+  <% } %>
+</main>
+</body></html>

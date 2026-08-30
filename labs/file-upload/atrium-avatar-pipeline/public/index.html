@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atrium — staff directory</title>
+<link rel="stylesheet" href="/atrium.css">
+</head>
+<body>
+<div class="top">Atrium</div>
+<main>
+  <h1>Staff directory</h1>
+  <div class="panel" id="people"></div>
+
+  <h2>Profile picture</h2>
+  <div class="panel">
+    <p class="muted">PNG, JPG, GIF, WebP or SVG, up to 2&nbsp;MB. Uploads are
+      served from <code>/uploads/</code> on this origin.</p>
+    <pre>POST /api/session          {"email": "...", "password": "..."}
+POST /api/avatar           multipart/form-data, field name "avatar"
+GET  /api/staff
+GET  /api/uploads/audit    what the platform team's audit job reports</pre>
+  </div>
+</main>
+<script>
+  fetch("/api/staff").then(function (r) { return r.json(); }).then(function (d) {
+    document.getElementById("people").innerHTML = d.staff.map(function (p) {
+      var pic = p.avatar
+        ? '<img src="' + p.avatar + '" alt="">'
+        : '<span class="ph"></span>';
+      return '<div class="person">' + pic + "<div><strong>" + p.name +
+             '</strong><div class="muted">' + p.title + " · " + p.team + "</div></div></div>";
+    }).join("");
+  });
+</script>
+</body>
+</html>

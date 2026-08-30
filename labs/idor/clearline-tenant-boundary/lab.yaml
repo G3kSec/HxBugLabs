@@ -1,0 +1,45 @@
+title: "Clearline — the tenant boundary that only exists in the browser"
+slug: "clearline-tenant-boundary"
+category: "Access Control / IDOR"
+difficulty: "Easy"
+tech: ["Node.js", "Express", "EJS", "REST"]
+port: 8081
+
+description: >-
+  Clearline is a multi-tenant contract workspace. You have a normal seat
+  in the Northwind workspace and no reason to believe you can see anything
+  else — every ID in the product is a UUID, so there is nothing to
+  enumerate. This is the version of IDOR that survives in modern SaaS: the
+  identifiers are unguessable, so the fix was declared done and the
+  ownership check was never written.
+
+objectives:
+  - id: "read-foreign-contract"
+    title: "Read a contract that belongs to another workspace"
+    description: >-
+      You cannot guess a UUID. You do not have to — somewhere in the
+      product, one is handed to you.
+    flag: "HxBugLabs{unguess4bl3_1ds_4r3_n0t_4cc3ss_c0ntr0l}"
+    hints:
+      - "Search the workspace for a common word and compare what the page shows against what the API actually returned."
+      - "Filtering happens somewhere. Ask yourself where — the server, or the code running in your browser?"
+      - "Once you hold an ID from another workspace, the document endpoint only ever checks that you are logged in."
+
+  - id: "sunset-api-export"
+    title: "Bulk-export a workspace through an API that was retired on paper"
+    description: >-
+      Reading one contract at a time is a finding. Exporting an entire
+      workspace is a different severity — and a different endpoint, one
+      the current front end stopped calling a long time ago.
+    flag: "HxBugLabs{sh4d0w_4p1_v1_n3v3r_g0t_th3_f1x}"
+    hints:
+      - "Look at the response headers of the v2 API, not just the bodies. Some of them are standards-track and very talkative."
+      - "RFC 8594 defines a header whose entire job is to announce that something is going away. Going away is not gone."
+      - "The retired version kept the routes and lost the checks. Its export route takes a workspace, not a document."
+
+tags:
+  - "idor"
+  - "broken-access-control"
+  - "multi-tenancy"
+  - "shadow-api"
+  - "client-side-filtering"

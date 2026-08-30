@@ -1,0 +1,11 @@
+services:
+  kestrel:
+    build: .
+    container_name: hxbuglabs-kestrel-report-merge
+    ports:
+      - "8088:8088"
+    restart: unless-stopped
+
+# This lab ends in command execution inside the container. That is the
+# objective, not an accident — see SECURITY.md before running it, and do
+# not run it on a host you care about.

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><%- include("partials/head") %><title>Enter your code — Atlas Payroll</title></head>
+<body>
+<div class="top"><b>ATLAS PAYROLL</b><span class="spacer"></span><a href="/mailbox">Webmail</a></div>
+<main style="max-width:23rem">
+  <h1>Enter your sign-in code</h1>
+  <p class="muted" id="who">Checking who is signing in…</p>
+  <% if (error) { %><div class="err"><%= error %></div><% } %>
+  <form method="post" action="/mfa/verify">
+    <p><input type="text" name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="0000" required autofocus></p>
+    <button type="submit">Verify</button>
+  </form>
+  <p class="muted" style="margin-top:1rem">
+    Didn't get it? <button class="link" id="resend" type="button">Send another code</button>
+    <span id="resent"></span>
+  </p>
+</main>
+<script>
+  // Banner so someone holding two Atlas accounts does not approve the wrong one.
+  fetch("/api/session/pending", { headers: { Accept: "application/json" } })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data) return;
+      document.getElementById("who").textContent =
+        "Signing in as " + data.user.name + " — " + data.user.title;
+    });
+
+  document.getElementById("resend").addEventListener("click", function () {
+    fetch("/mfa/resend", { method: "POST" })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        document.getElementById("resent").textContent = d.sent ? " Sent to " + d.to : "";
+      });
+  });
+</script>
+</body></html>
