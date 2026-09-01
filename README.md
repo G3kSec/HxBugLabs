@@ -1,5 +1,7 @@
 # HxBugLabs
 
+[![Validate](https://github.com/G3kSec/HxBugLabs/actions/workflows/validate.yml/badge.svg)](https://github.com/G3kSec/HxBugLabs/actions/workflows/validate.yml)
+
 Self-hosted, Docker-based vulnerable labs for practicing bug bounty web
 vulnerabilities and recon techniques — plus a catalog site to browse and run
 them locally.
@@ -8,6 +10,16 @@ them locally.
 
 Twelve labs, twenty-five objectives, every one of them built and exercised
 end to end against the running app.
+
+## Table of Contents
+
+- [How it works](#how-it-works)
+- [The labs](#the-labs)
+- [Running one](#running-one)
+- [Tracking progress](#tracking-progress)
+- [Structure](#structure)
+- [Adding a lab](#adding-a-lab)
+- [Safety](#safety)
 
 ## How it works
 
